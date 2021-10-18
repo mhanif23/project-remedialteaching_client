@@ -2,13 +2,13 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { Button, TextField, Typography } from '@mui/material';
-import StudentAuth from '../models/studentauth';
+import AdminAuth from '../models/adminauth';
 
 interface login {
   username: string;
   password: string;
 }
-const Login = () => {
+const AdminLogin = () => {
   const [valueLogin, setValueLogin] = React.useState<login>({
     username: ' ',
     password: '        ',
@@ -20,7 +20,7 @@ const Login = () => {
     };
 
   const handleClick = async () => {
-    const auth = await StudentAuth(valueLogin.username, valueLogin.password);
+    const auth = await AdminAuth(valueLogin.username, valueLogin.password);
   };
   return (
     <Grid
@@ -49,7 +49,7 @@ const Login = () => {
             spacing={3}
           >
             <Grid item mt={10}>
-              <Typography variant='h3'>Student Login</Typography>
+              <Typography variant='h3'>Admin Login</Typography>
             </Grid>
             <Grid item container direction='column' alignItems='center' mt={5}>
               <TextField
@@ -93,4 +93,4 @@ const Login = () => {
     </Grid>
   );
 };
-export default Login;
+export default AdminLogin;
