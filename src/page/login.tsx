@@ -2,8 +2,27 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { Button, TextField, Typography } from '@mui/material';
+import StudentAuth from '../models/studentauth';
 
+interface login {
+  username: string;
+  password: string;
+}
 const Login = () => {
+  const [valueLogin, setValueLogin] = React.useState<login>({
+    username: ' ',
+    password: '        ',
+  });
+
+  const handleChange =
+    (prop: keyof login) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      setValueLogin({ ...valueLogin, [prop]: event.target.value });
+    };
+
+  const handleClick = async () => {
+    const auth = await StudentAuth(valueLogin.username, valueLogin.password);
+    console.log(auth.username);
+  };
   return (
     <Grid
       container
@@ -39,6 +58,11 @@ const Login = () => {
                 id='filled-basic'
                 label='Username'
                 sx={{ width: '80%' }}
+                onChange={handleChange('username')}
+                error={valueLogin.username === ''}
+                helperText={
+                  valueLogin.username === '' ? 'Invalid username!' : ''
+                }
               />
             </Grid>
             <Grid item container direction='column' alignItems='center'>
@@ -47,11 +71,20 @@ const Login = () => {
                 id='filled-basic'
                 label='Password'
                 type='password'
+                onChange={handleChange('password')}
+                error={valueLogin.password === ''}
+                helperText={
+                  valueLogin.password.length < 8 ? 'Invalid password!' : ''
+                }
                 sx={{ width: '80%' }}
               />
             </Grid>
             <Grid item container direction='column' alignItems='center'>
-              <Button variant='contained' sx={{ width: '80%' }}>
+              <Button
+                variant='contained'
+                sx={{ width: '80%' }}
+                onClick={handleClick}
+              >
                 Login
               </Button>
             </Grid>
