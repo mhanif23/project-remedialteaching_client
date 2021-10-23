@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { Button, TextField, Typography } from '@mui/material';
 import StudentAuth from '../models/studentauth';
+import { saveToken } from '../sessions/session';
 
 interface login {
   username: string;
@@ -21,6 +22,7 @@ const Login = () => {
 
   const handleClick = async () => {
     const auth = await StudentAuth(valueLogin.username, valueLogin.password);
+    if (auth.token) saveToken(auth.token);
   };
   return (
     <Grid
