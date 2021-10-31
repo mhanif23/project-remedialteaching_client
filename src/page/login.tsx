@@ -22,7 +22,7 @@ const Login = () => {
 
   const handleClick = async () => {
     const auth = await StudentAuth(valueLogin.username, valueLogin.password);
-    if (auth.token) saveToken(auth.token);
+    if (auth.token) saveToken(auth.token, 'student');
   };
   return (
     <Grid

@@ -6,6 +6,7 @@ interface requestInit {
 type auth = {
   token?: string;
   username?: string;
+  role?: string;
 };
 
 const StudentAuth = async (
