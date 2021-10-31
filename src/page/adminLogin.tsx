@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid';
 import { Button, TextField, Typography } from '@mui/material';
 import AdminAuth from '../models/adminauth';
 import { saveToken } from '../sessions/session';
+import useStore from '../store/globalState';
 
 interface login {
   username: string;
@@ -19,11 +20,17 @@ const AdminLogin = () => {
     (prop: keyof login) => (event: React.ChangeEvent<HTMLInputElement>) => {
       setValueLogin({ ...valueLogin, [prop]: event.target.value });
     };
-
+  const setUsername = useStore((state) => state.setUsername);
+  const setToken = useStore((state) => state.setToken);
+  const setRole = useStore((state) => state.setRole);
   const handleClick = async () => {
     const auth = await AdminAuth(valueLogin.username, valueLogin.password);
-    if (auth.token && auth.username)
+    if (auth.token && auth.username) {
       saveToken(auth.token, auth.username, 'admin');
+      setUsername(auth.username);
+      setToken(auth.token);
+      setRole('admin');
+    }
   };
   return (
     <Grid

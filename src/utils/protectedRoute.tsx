@@ -8,6 +8,7 @@ export const ProtectedRoute: FC<Props> = ({ component, path }) => {
   const login = true;
   return (
     <Route
+      exact
       path={path}
       render={(props) => {
         if (login !== true) {
