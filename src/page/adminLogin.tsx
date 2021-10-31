@@ -22,7 +22,8 @@ const AdminLogin = () => {
 
   const handleClick = async () => {
     const auth = await AdminAuth(valueLogin.username, valueLogin.password);
-    if (auth.token) saveToken(auth.token, 'admin');
+    if (auth.token && auth.username)
+      saveToken(auth.token, auth.username, 'admin');
   };
   return (
     <Grid
