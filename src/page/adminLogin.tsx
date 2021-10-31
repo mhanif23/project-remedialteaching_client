@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { Button, TextField, Typography } from '@mui/material';
 import AdminAuth from '../models/adminauth';
+import { saveToken } from '../sessions/session';
 
 interface login {
   username: string;
@@ -21,6 +22,7 @@ const AdminLogin = () => {
 
   const handleClick = async () => {
     const auth = await AdminAuth(valueLogin.username, valueLogin.password);
+    if (auth.token) saveToken(auth.token, 'admin');
   };
   return (
     <Grid
