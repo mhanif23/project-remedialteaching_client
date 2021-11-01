@@ -7,12 +7,19 @@ export function saveToken(token: string, username: string, role: string) {
   );
 }
 
-export function getCredential() {
+type iauth = {
+  username: string;
+  token: string;
+  role: string;
+};
+
+export function getCredential(): iauth {
   const authJSON = localStorage.getItem(LOCAL_AUTH_KEY);
   if (!authJSON)
     return {
-      token: null,
-      role: null,
+      username: '',
+      token: '',
+      role: '',
     };
   let auth = JSON.parse(authJSON);
   return auth;
