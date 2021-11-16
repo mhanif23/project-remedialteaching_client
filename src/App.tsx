@@ -6,6 +6,12 @@ import { useEffect } from 'react';
 import useStore from './store/globalState';
 import { getCredential } from './sessions/session';
 import BerandaAdmin from './page/admin/beranda';
+import Indicators from './page/admin/indicators';
+import Admins from './page/admin/admins';
+import Questions from './page/admin/questions';
+import QuestionsTypes from './page/admin/questionsType';
+import Students from './page/admin/students';
+import Subjects from './page/admin/subject';
 
 function App() {
   const ProtectedRouteData = [
@@ -57,6 +63,27 @@ function App() {
         </Route>
         <Route exact path='/login/admin'>
           <AdminLogin />
+        </Route>
+        <Route exact path='/adminnn'>
+          <BerandaAdmin />
+        </Route>
+        <Route exact path='/indicators'>
+          <Indicators />
+        </Route>
+        <Route exact path='/admins'>
+          <Admins />
+        </Route>
+        <Route exact path='/questions'>
+          <Questions />
+        </Route>
+        <Route exact path='/questionsType'>
+          <QuestionsTypes />
+        </Route>
+        <Route exact path='/studentss'>
+          <Students />
+        </Route>
+        <Route exact path='/subjects'>
+          <Subjects />
         </Route>
         {ProtectedRouteData.map((data) => {
           return (

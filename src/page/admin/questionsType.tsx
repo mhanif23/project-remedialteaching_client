@@ -1,17 +1,17 @@
 import { Container, Typography } from '@mui/material';
 import ButtonAppBar from '../../components/appBar';
 
-const BerandaAdmin = () => {
+const QuestionsTypes = () => {
   return (
     <>
       <ButtonAppBar />
       <Container>
         <Typography align='center' variant='h2' sx={{ mt: 5 }}>
-          Welcome Admin!
+          List QuestionsTypes
         </Typography>
       </Container>
     </>
   );
 };
 
-export default BerandaAdmin;
+export default QuestionsTypes;
