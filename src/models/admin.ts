@@ -37,3 +37,31 @@ export const createAdmin = async (newData: iCreateAdmin): Promise<boolean> => {
     return false;
   }
 };
+
+export interface admins {
+  id: number;
+  admin_name: string;
+  username: string;
+}
+export const getAdmins = async (): Promise<admins[]> => {
+  var myHeaders = new Headers();
+  myHeaders.append(
+    'Authorization',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYzODM3NzkyOSwiZXhwIjoxNjM4MzgxNTI5fQ.s9M1lIBaEkTa6f2-oPXNePHgI9y3tV5UykU6Hi5JlRo',
+  );
+
+  var requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+  };
+
+  const data = await fetch('http://localhost:8080/admins', requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result;
+    })
+    .catch((error) => {
+      return error;
+    });
+  return await data.admins;
+};
