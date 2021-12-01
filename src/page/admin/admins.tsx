@@ -61,6 +61,7 @@ const Admins = () => {
     admin();
   }, []);
 
+  // eslint-disable-next-line array-callback-return
   dataAdmin?.map((e, index) => {
     rows.push(createData(e.id, e.username, e.admin_name, String(index + 1)));
   });
