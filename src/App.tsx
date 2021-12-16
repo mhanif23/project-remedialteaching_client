@@ -12,6 +12,7 @@ import Questions from './page/admin/questions';
 import QuestionsTypes from './page/admin/questionsType';
 import Students from './page/admin/students';
 import Subjects from './page/admin/subject';
+import Diagnostik from './page/admin/diagnostik';
 
 function App() {
   const ProtectedRouteData = [
@@ -81,6 +82,9 @@ function App() {
         </Route>
         <Route exact path='/studentss'>
           <Students />
+        </Route>
+        <Route exact path='/diagnostik'>
+          <Diagnostik />
         </Route>
         <Route exact path='/subjects'>
           <Subjects />

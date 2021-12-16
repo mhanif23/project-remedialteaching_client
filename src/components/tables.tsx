@@ -9,37 +9,26 @@ import Paper from '@mui/material/Paper';
 import { Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import AlertDialog from './deleteDialogBox';
-import { useState } from 'react';
-import FullScreenDialog from './dialogFullScreen';
 
 export default function DenseTable({
   rows,
   tableName,
+  handleClickOpenEditDialog,
+  handleCloseEditDialog,
+  setIdEdit,
+  setIdDelete,
+  handleClickOpenDelete,
+  handleCloseOpenDelete,
 }: {
   rows: any;
   tableName: any;
+  handleClickOpenEditDialog: () => void;
+  handleCloseEditDialog: () => void;
+  handleCloseOpenDelete: () => void;
+  handleClickOpenDelete: () => void;
+  setIdEdit: React.Dispatch<React.SetStateAction<number>>;
+  setIdDelete: React.Dispatch<React.SetStateAction<number>>;
 }) {
-  const [open, setOpen] = React.useState(false);
-  const [openEdit, setOpenEdit] = React.useState(false);
-  const [id, setId] = useState<number>(0);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleClickOpenEdit = () => {
-    setOpenEdit(true);
-  };
-
-  const handleCloseEdit = () => {
-    setOpenEdit(false);
-  };
-
   return (
     <>
       <TableContainer component={Paper}>
@@ -53,6 +42,9 @@ export default function DenseTable({
                 <TableCell align='center'>{head.name4}&nbsp;</TableCell>
                 <TableCell align='center'>{head.name5}&nbsp;</TableCell>
                 <TableCell align='center'>{head.name6}&nbsp;</TableCell>
+                <TableCell align='center'>{head.name7}&nbsp;</TableCell>
+                <TableCell align='center'>{head.name8}&nbsp;</TableCell>
+                <TableCell align='center'>{head.name9}&nbsp;</TableCell>
               </TableRow>
             ))}
           </TableHead>
@@ -66,9 +58,47 @@ export default function DenseTable({
                   {row.name}
                 </TableCell>
                 <TableCell align='center'>{row.data1}</TableCell>
-                <TableCell align='center'>{row.data2}</TableCell>
-                <TableCell align='center'>{row.data3}</TableCell>
-                <TableCell align='center'>{row.data4}</TableCell>
+                {row.data2 ? (
+                  <TableCell align='center'>{row.data2}</TableCell>
+                ) : (
+                  ''
+                )}
+                {row.data3 ? (
+                  <TableCell align='center'>{row.data3}</TableCell>
+                ) : (
+                  ''
+                )}
+                {row.data4 ? (
+                  <TableCell align='center'>{row.data4}</TableCell>
+                ) : (
+                  ''
+                )}
+                {row.data5 ? (
+                  <TableCell align='center'>{row.data5}</TableCell>
+                ) : (
+                  ''
+                )}
+                {row.data6 ? (
+                  <TableCell align='center'>{row.data6}</TableCell>
+                ) : (
+                  ''
+                )}
+                {row.data7 ? (
+                  <TableCell align='center'>{row.data7}</TableCell>
+                ) : (
+                  ''
+                )}
+                {row.data8 ? (
+                  <TableCell align='center'>{row.data8}</TableCell>
+                ) : (
+                  ''
+                )}
+                {row.data9 ? (
+                  <TableCell align='center'>{row.data9}</TableCell>
+                ) : (
+                  ''
+                )}
+
                 <TableCell align='center'>
                   <Button
                     sx={{ mr: 2 }}
@@ -77,8 +107,8 @@ export default function DenseTable({
                     color='primary'
                     startIcon={<EditIcon />}
                     onClick={() => {
-                      setId(row.id);
-                      handleClickOpenEdit();
+                      setIdEdit(row.id);
+                      handleClickOpenEditDialog();
                     }}
                   >
                     {' '}
@@ -90,8 +120,8 @@ export default function DenseTable({
                     color='warning'
                     startIcon={<DeleteIcon />}
                     onClick={() => {
-                      setId(row.id);
-                      handleClickOpen();
+                      setIdDelete(row.id);
+                      handleClickOpenDelete();
                     }}
                   >
                     {' '}
@@ -103,8 +133,6 @@ export default function DenseTable({
           </TableBody>
         </Table>
       </TableContainer>
-      <AlertDialog open={open} handleClose={handleClose} id={id} />
-      <FullScreenDialog open={openEdit} handleClose={handleCloseEdit} id={id} />
     </>
   );
 }

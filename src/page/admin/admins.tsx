@@ -16,12 +16,32 @@ import { admins, createAdmin, getAdmins } from '../../models/admin';
 
 const Admins = () => {
   const [open, setOpen] = React.useState(false);
+  const [idEdit, setIdEdit] = React.useState(-1);
+  const [idDelete, setIdDelete] = React.useState(-1);
+  const [openEdit, setOpenEdit] = React.useState(false);
+  const [openDelete, setOpenDelete] = React.useState(false);
+
   const [dataNewAdmin, setNewAdmin] = React.useState({
     username: '',
     password: '',
     fullname: '',
   });
 
+  const handleClickOpenDelete = () => {
+    setOpenDelete(true);
+  };
+
+  const handleCloseOpenDelete = () => {
+    setOpenDelete(false);
+  };
+
+  const handleClickOpenEditDialog = () => {
+    setOpenEdit(true);
+  };
+
+  const handleCloseEditDialog = () => {
+    setOpenEdit(false);
+  };
   const [dataAdmin, setDataAdmin] = React.useState<admins[] | undefined>(
     undefined,
   );
@@ -52,14 +72,13 @@ const Admins = () => {
   const tableName = [createName('No', 'username', 'fullname')];
 
   const rows: { id: number; data1: string; data2: string }[] = [];
-  console.log(rows);
+  async function admin() {
+    const data = await getAdmins();
+    setDataAdmin(data);
+  }
   useEffect(() => {
-    async function admin() {
-      const data = await getAdmins();
-      setDataAdmin(data);
-    }
     admin();
-  }, []);
+  }, [open]);
 
   // eslint-disable-next-line array-callback-return
   dataAdmin?.map((e, index) => {
@@ -89,7 +108,16 @@ const Admins = () => {
           Admin List
         </Typography>
         <Box>
-          <DenseTable rows={rows} tableName={tableName} />
+          <DenseTable
+            rows={rows}
+            tableName={tableName}
+            handleClickOpenEditDialog={handleClickOpenEditDialog}
+            handleCloseEditDialog={handleCloseEditDialog}
+            setIdEdit={setIdEdit}
+            setIdDelete={setIdDelete}
+            handleClickOpenDelete={handleClickOpenDelete}
+            handleCloseOpenDelete={handleCloseOpenDelete}
+          />
         </Box>
         <Button
           autoFocus

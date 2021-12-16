@@ -7,7 +7,7 @@ export const createAdmin = async (newData: iCreateAdmin): Promise<boolean> => {
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYzODM3MzkwNywiZXhwIjoxNjM4Mzc3NTA3fQ.8nBEteFlPZU694LbTD8AYUkn_8nOtLnw1uGRlTp5vME',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYzOTY3MDk1NiwiZXhwIjoxNjM5Njc0NTU2fQ.XJkFqAOH0Wa4m3jD0PSoken5tQNRVU_hs2JcCrV4M_s',
   );
   myHeaders.append('Content-Type', 'application/json');
 
@@ -47,7 +47,7 @@ export const getAdmins = async (): Promise<admins[]> => {
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYzODM3NzkyOSwiZXhwIjoxNjM4MzgxNTI5fQ.s9M1lIBaEkTa6f2-oPXNePHgI9y3tV5UykU6Hi5JlRo',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYzOTY3MDk1NiwiZXhwIjoxNjM5Njc0NTU2fQ.XJkFqAOH0Wa4m3jD0PSoken5tQNRVU_hs2JcCrV4M_s',
   );
 
   var requestOptions = {
