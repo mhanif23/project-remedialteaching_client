@@ -7,6 +7,7 @@ export interface idiagnostik_question {
   option4: string;
   option5: string;
   trueAnswer: string;
+  media?: string;
 }
 
 export interface iCreatediagnostik_question {
@@ -17,6 +18,7 @@ export interface iCreatediagnostik_question {
   option4: string;
   option5: string;
   trueAnswer: string;
+  media?: string;
 }
 
 export const createDiagnostikQuestion = async (
@@ -25,7 +27,7 @@ export const createDiagnostikQuestion = async (
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYzOTY3MDk1NiwiZXhwIjoxNjM5Njc0NTU2fQ.XJkFqAOH0Wa4m3jD0PSoken5tQNRVU_hs2JcCrV4M_s',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MDM0Mzg2MywiZXhwIjoxNjQwMzYxODYzfQ.fWTHhBiXlV63ogRxXrFG2CWxYqA2hKTZuKhJfRgNYec',
   );
   myHeaders.append('Content-Type', 'application/json');
 
@@ -37,6 +39,7 @@ export const createDiagnostikQuestion = async (
     option4: newData.option4,
     option5: newData.option5,
     trueAnswer: newData.trueAnswer,
+    media: newData.media,
   });
 
   var requestOptions = {
@@ -49,7 +52,7 @@ export const createDiagnostikQuestion = async (
     'http://localhost:8080/questionDiagnostiks',
     requestOptions,
   )
-    .then((response) => response.text())
+    .then((response) => response.json())
     .then((result) => {
       return result;
     })
@@ -83,4 +86,83 @@ export const getSoalDiagnopstik = async (): Promise<idiagnostik_question[]> => {
       return error;
     });
   return await data.result;
+};
+
+export const updateDiagnostikQuestion = async (
+  id: number,
+  body: iCreatediagnostik_question,
+): Promise<boolean> => {
+  var myHeaders = new Headers();
+  myHeaders.append(
+    'Authorization',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MDM0Mzg2MywiZXhwIjoxNjQwMzYxODYzfQ.fWTHhBiXlV63ogRxXrFG2CWxYqA2hKTZuKhJfRgNYec',
+  );
+  myHeaders.append('Content-Type', 'application/json');
+
+  var raw = JSON.stringify({
+    id: id,
+    question: body.question,
+    option1: body.option1,
+    option2: body.option2,
+    option3: body.option3,
+    option4: body.option4,
+    option5: body.option5,
+    trueAnswer: body.trueAnswer,
+    media: body.media,
+  });
+
+  var requestOptions = {
+    method: 'PUT',
+    headers: myHeaders,
+    body: raw,
+  };
+
+  const data = await fetch(
+    'http://localhost:8080/questionDiagnostiks',
+    requestOptions,
+  )
+    .then((response) => response.json())
+    .then((result) => {
+      return result;
+    })
+    .catch((error) => {
+      return error;
+    });
+
+  return data;
+};
+
+export const deleteDiagnostikQuestion = async (
+  id: number,
+): Promise<boolean> => {
+  var myHeaders = new Headers();
+  myHeaders.append(
+    'Authorization',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MDM0Mzg2MywiZXhwIjoxNjQwMzYxODYzfQ.fWTHhBiXlV63ogRxXrFG2CWxYqA2hKTZuKhJfRgNYec',
+  );
+  myHeaders.append('Content-Type', 'application/json');
+
+  var raw = JSON.stringify({
+    id: id,
+  });
+
+  var requestOptions = {
+    method: 'DELETE',
+    headers: myHeaders,
+    body: raw,
+  };
+
+  const data = await fetch(
+    'http://localhost:8080/questionDiagnostiks',
+    requestOptions,
+  )
+    .then((response) => response.json())
+    .then((result) => {
+      return result;
+    })
+    .catch((error) => {
+      return error;
+    });
+
+  return data;
 };

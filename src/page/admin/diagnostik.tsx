@@ -12,13 +12,13 @@ import {
 } from '@mui/material';
 import React, { useEffect } from 'react';
 import ButtonAppBar from '../../components/appBar';
-import AlertDialog from '../../components/deleteDialogBox';
-import FullScreenDialog from '../../components/dialogFullScreen';
 import DenseTable from '../../components/tables';
 import {
   createDiagnostikQuestion,
+  deleteDiagnostikQuestion,
   getSoalDiagnopstik,
   idiagnostik_question,
+  updateDiagnostikQuestion,
 } from '../../models/diagnostik_question';
 
 const Diagnostik = () => {
@@ -35,6 +35,7 @@ const Diagnostik = () => {
     option4: '',
     option5: '',
     trueAnswer: '',
+    media: '',
   });
 
   const [soalDiagnostikall, setSoalDiagnostikAll] = React.useState<
@@ -81,6 +82,7 @@ const Diagnostik = () => {
     data5: string,
     data6: string,
     data7: string,
+    data8: string,
     name: string,
   ) {
     return {
@@ -92,6 +94,7 @@ const Diagnostik = () => {
       data5,
       data6,
       data7,
+      data8,
       name,
     };
   }
@@ -105,8 +108,9 @@ const Diagnostik = () => {
     name6: string,
     name7: string,
     name8: string,
+    name9: string,
   ) {
-    return { name1, name2, name3, name4, name5, name6, name7, name8 };
+    return { name1, name2, name3, name4, name5, name6, name7, name8, name9 };
   }
 
   const tableName = [
@@ -118,6 +122,7 @@ const Diagnostik = () => {
       'opsi3',
       'opsi4',
       'opsi5',
+      'media',
       'jawaban',
     ),
   ];
@@ -131,6 +136,7 @@ const Diagnostik = () => {
     data5: string;
     data6: string;
     data7: string;
+    data8: string;
     name: string;
   }[] = [];
   async function soalDiangostik() {
@@ -140,12 +146,10 @@ const Diagnostik = () => {
 
   useEffect(() => {
     soalDiangostik();
-  }, [open, openEdit]);
+  }, [open, openEdit, openDelete]);
 
   useEffect(() => {
     const soal = soalDiagnostikall?.find((e) => e.id === idEdit);
-    console.log(soal);
-    console.log(idEdit);
     if (soal) {
       setSoalDiagnostik({
         question: soal.question,
@@ -154,6 +158,7 @@ const Diagnostik = () => {
         option3: soal.option3,
         option4: soal.option4,
         option5: soal.option5,
+        media: soal.media ? soal.media : '-',
         trueAnswer: soal.trueAnswer,
       });
     }
@@ -170,7 +175,9 @@ const Diagnostik = () => {
         e.option3,
         e.option4,
         e.option5,
+        e.media ? e.media : ' ',
         e.trueAnswer,
+
         String(index + 1),
       ),
     );
@@ -189,8 +196,51 @@ const Diagnostik = () => {
         option4: '',
         option5: '',
         trueAnswer: '',
+        media: '',
       });
+      setIdEdit(-1);
       handleClose();
+    }
+  };
+
+  const deleteDiagnostik = async () => {
+    const data = deleteDiagnostikQuestion(idDelete);
+    if ((await data) === true) {
+      handleCloseOpenDelete();
+      soalDiangostik();
+    } else {
+      setSoalDiagnostik({
+        question: '',
+        option1: '',
+        option2: '',
+        option3: '',
+        option4: '',
+        option5: '',
+        trueAnswer: '',
+        media: '',
+      });
+      setIdDelete(-1);
+      handleCloseOpenDelete();
+    }
+  };
+
+  const update = async () => {
+    const data = updateDiagnostikQuestion(idEdit, soalDiagnostik);
+    if ((await data) === true) {
+      handleCloseEditDialog();
+      soalDiangostik();
+    } else {
+      setSoalDiagnostik({
+        question: '',
+        option1: '',
+        option2: '',
+        option3: '',
+        option4: '',
+        option5: '',
+        trueAnswer: '',
+        media: '',
+      });
+      handleCloseEditDialog();
     }
   };
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -333,6 +383,23 @@ const Diagnostik = () => {
           <TextField
             autoFocus
             margin='normal'
+            id='media'
+            label='media'
+            type='string'
+            fullWidth
+            variant='standard'
+            value={soalDiagnostik.media}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+            ) => {
+              ChangeValueNewAdmin(e);
+            }}
+          />
+        </DialogContent>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin='normal'
             id='trueAnswer'
             label='trueAnswer'
             type='string'
@@ -358,8 +425,8 @@ const Diagnostik = () => {
           <TextField
             autoFocus
             margin='normal'
-            id='Soal'
-            label='Soal'
+            id='question'
+            label='question'
             type='string'
             fullWidth
             variant='standard'
@@ -456,6 +523,23 @@ const Diagnostik = () => {
             }}
           />
         </DialogContent>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin='normal'
+            id='media'
+            label='media'
+            type='string'
+            fullWidth
+            variant='standard'
+            value={soalDiagnostik.media}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+            ) => {
+              ChangeValueNewAdmin(e);
+            }}
+          />
+        </DialogContent>
 
         <DialogContent>
           <TextField
@@ -476,7 +560,7 @@ const Diagnostik = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseEditDialog}>Cancel</Button>
-          <Button onClick={create}>Create</Button>
+          <Button onClick={update}>Update</Button>
         </DialogActions>
       </Dialog>
 
@@ -494,7 +578,7 @@ const Diagnostik = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseOpenDelete}>Cancel</Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={deleteDiagnostik} autoFocus>
             Accept
           </Button>
         </DialogActions>
