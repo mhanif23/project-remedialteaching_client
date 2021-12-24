@@ -1,4 +1,4 @@
-interface iCreateAdmin {
+export interface iCreateAdmin {
   username: string;
   password: string;
   fullname: string;

@@ -16,7 +16,9 @@ import { admins, createAdmin, getAdmins } from '../../models/admin';
 
 const Admins = () => {
   const [open, setOpen] = React.useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [idEdit, setIdEdit] = React.useState(-1);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [idDelete, setIdDelete] = React.useState(-1);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
@@ -78,7 +80,7 @@ const Admins = () => {
   }
   useEffect(() => {
     admin();
-  }, [open]);
+  }, [open, openEdit, openDelete]);
 
   // eslint-disable-next-line array-callback-return
   dataAdmin?.map((e, index) => {
@@ -98,6 +100,7 @@ const Admins = () => {
       handleClose();
     }
   };
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
 
   return (

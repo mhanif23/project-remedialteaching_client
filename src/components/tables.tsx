@@ -14,11 +14,9 @@ export default function DenseTable({
   rows,
   tableName,
   handleClickOpenEditDialog,
-  handleCloseEditDialog,
   setIdEdit,
   setIdDelete,
   handleClickOpenDelete,
-  handleCloseOpenDelete,
 }: {
   rows: any;
   tableName: any;
