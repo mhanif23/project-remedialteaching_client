@@ -1,11 +1,8 @@
-export interface iCreateStudent {
-  username: string;
-  password: string;
-  student_name: string;
-  class: string;
+export interface iCreateSubject {
+  name: string;
 }
-export const createStudent = async (
-  newData: iCreateStudent,
+export const createSubject = async (
+  newData: iCreateSubject,
 ): Promise<boolean> => {
   var myHeaders = new Headers();
   myHeaders.append(
@@ -15,10 +12,7 @@ export const createStudent = async (
   myHeaders.append('Content-Type', 'application/json');
 
   var raw = JSON.stringify({
-    username: newData.username,
-    password: newData.password,
-    name: newData.student_name,
-    classroom: newData.class,
+    name: newData.name,
   });
 
   var requestOptions = {
@@ -27,7 +21,7 @@ export const createStudent = async (
     body: raw,
   };
 
-  const data = fetch('http://localhost:8080/Student', requestOptions)
+  const data = fetch('http://localhost:8080/Subject', requestOptions)
     .then((response) => response.json())
     .then((result) => {
       return result;
@@ -42,15 +36,11 @@ export const createStudent = async (
   }
 };
 
-export interface students {
+export interface SubjectsData {
   id: number;
-  username: string;
-  password: string;
-  student_name: string;
-  class: string;
-  status: string;
+  name: string;
 }
-export const getStudents = async (): Promise<students[]> => {
+export const getSubject = async (): Promise<SubjectsData[]> => {
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
@@ -62,10 +52,7 @@ export const getStudents = async (): Promise<students[]> => {
     headers: myHeaders,
   };
 
-  const data = await fetch(
-    'http://localhost:8080/studentsActive',
-    requestOptions,
-  )
+  const data = await fetch('http://localhost:8080/Subject', requestOptions)
     .then((response) => response.json())
     .then((result) => {
       return result;
@@ -73,10 +60,10 @@ export const getStudents = async (): Promise<students[]> => {
     .catch((error) => {
       return error;
     });
-  return await data.student;
+  return await data.result;
 };
 
-export const deleteStudent = async (id: number): Promise<boolean> => {
+export const deleteSubject = async (id: number): Promise<boolean> => {
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
@@ -94,7 +81,7 @@ export const deleteStudent = async (id: number): Promise<boolean> => {
     body: raw,
   };
 
-  const data = await fetch('http://localhost:8080/student', requestOptions)
+  const data = await fetch('http://localhost:8080/Subject', requestOptions)
     .then((response) => response.json())
     .then((result) => {
       return result;
