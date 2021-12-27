@@ -7,7 +7,7 @@ export const createSubject = async (
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MDQ5OTkwNSwiZXhwIjoxNjQwNTE3OTA1fQ.ZJs3fErauNCeFPZuG-obEMfG0ySr3cZ07Iys8oBAylo',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MDU4OTg4MiwiZXhwIjoxNjQwNjA3ODgyfQ.E7yybMxBkxk0PA_SkaOFCDYb2J-KzhZIm4ChXgXo0rw',
   );
   myHeaders.append('Content-Type', 'application/json');
 
@@ -44,7 +44,7 @@ export const getSubject = async (): Promise<SubjectsData[]> => {
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MDQ5OTkwNSwiZXhwIjoxNjQwNTE3OTA1fQ.ZJs3fErauNCeFPZuG-obEMfG0ySr3cZ07Iys8oBAylo',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MDU4OTg4MiwiZXhwIjoxNjQwNjA3ODgyfQ.E7yybMxBkxk0PA_SkaOFCDYb2J-KzhZIm4ChXgXo0rw',
   );
 
   var requestOptions = {
@@ -52,7 +52,7 @@ export const getSubject = async (): Promise<SubjectsData[]> => {
     headers: myHeaders,
   };
 
-  const data = await fetch('http://localhost:8080/Subject', requestOptions)
+  const data = await fetch('http://localhost:8080/Subjects', requestOptions)
     .then((response) => response.json())
     .then((result) => {
       return result;
@@ -63,11 +63,11 @@ export const getSubject = async (): Promise<SubjectsData[]> => {
   return await data.result;
 };
 
-export const deleteSubject = async (id: number): Promise<boolean> => {
+export const deleteSubjectId = async (id: number): Promise<boolean> => {
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MDQ5OTkwNSwiZXhwIjoxNjQwNTE3OTA1fQ.ZJs3fErauNCeFPZuG-obEMfG0ySr3cZ07Iys8oBAylo',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MDU4OTg4MiwiZXhwIjoxNjQwNjA3ODgyfQ.E7yybMxBkxk0PA_SkaOFCDYb2J-KzhZIm4ChXgXo0rw',
   );
   myHeaders.append('Content-Type', 'application/json');
 
@@ -89,5 +89,39 @@ export const deleteSubject = async (id: number): Promise<boolean> => {
     .catch((error) => {
       return error;
     });
+  return await data;
+};
+
+export const updateSubject = async (
+  id: number,
+  name: string,
+): Promise<boolean> => {
+  var myHeaders = new Headers();
+  myHeaders.append(
+    'Authorization',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MDU4OTg4MiwiZXhwIjoxNjQwNjA3ODgyfQ.E7yybMxBkxk0PA_SkaOFCDYb2J-KzhZIm4ChXgXo0rw',
+  );
+  myHeaders.append('Content-Type', 'application/json');
+
+  var raw = JSON.stringify({
+    id: id,
+    name: name,
+  });
+
+  var requestOptions = {
+    method: 'PUT',
+    headers: myHeaders,
+    body: raw,
+  };
+
+  const data = await fetch('http://localhost:8080/SubjectsId', requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result;
+    })
+    .catch((error) => {
+      return error;
+    });
+
   return await data;
 };

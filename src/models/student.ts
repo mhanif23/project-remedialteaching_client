@@ -10,7 +10,7 @@ export const createStudent = async (
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MDQ5OTkwNSwiZXhwIjoxNjQwNTE3OTA1fQ.ZJs3fErauNCeFPZuG-obEMfG0ySr3cZ07Iys8oBAylo',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MDU4OTg4MiwiZXhwIjoxNjQwNjA3ODgyfQ.E7yybMxBkxk0PA_SkaOFCDYb2J-KzhZIm4ChXgXo0rw',
   );
   myHeaders.append('Content-Type', 'application/json');
 
@@ -54,7 +54,7 @@ export const getStudents = async (): Promise<students[]> => {
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MDQ5OTkwNSwiZXhwIjoxNjQwNTE3OTA1fQ.ZJs3fErauNCeFPZuG-obEMfG0ySr3cZ07Iys8oBAylo',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MDU4OTg4MiwiZXhwIjoxNjQwNjA3ODgyfQ.E7yybMxBkxk0PA_SkaOFCDYb2J-KzhZIm4ChXgXo0rw',
   );
 
   var requestOptions = {
@@ -80,7 +80,7 @@ export const deleteStudent = async (id: number): Promise<boolean> => {
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MDQ5OTkwNSwiZXhwIjoxNjQwNTE3OTA1fQ.ZJs3fErauNCeFPZuG-obEMfG0ySr3cZ07Iys8oBAylo',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MDU4OTg4MiwiZXhwIjoxNjQwNjA3ODgyfQ.E7yybMxBkxk0PA_SkaOFCDYb2J-KzhZIm4ChXgXo0rw',
   );
   myHeaders.append('Content-Type', 'application/json');
 

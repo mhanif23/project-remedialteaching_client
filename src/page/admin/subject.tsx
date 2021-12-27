@@ -13,7 +13,13 @@ import {
 import React, { useEffect } from 'react';
 import ButtonAppBar from '../../components/appBar';
 import DenseTable from '../../components/tables';
-import { createSubject, getSubject, SubjectsData } from '../../models/subjects';
+import {
+  createSubject,
+  deleteSubjectId,
+  getSubject,
+  SubjectsData,
+  updateSubject,
+} from '../../models/subjects';
 
 const Subjects = () => {
   const [open, setOpen] = React.useState(false);
@@ -28,20 +34,32 @@ const Subjects = () => {
     name: '',
   });
 
-  const deleteSubjectQuestion = async () => {
-    // const data = deleteSubject(idDelete);
-    // if ((await data) === true) {
-    //   setIdDelete(-1);
-    //   handleCloseOpenDelete();
-    // } else {
-    //   setNewSubject({
-    //     username: '',
-    //     password: '',
-    //     Subject_name: '',
-    //     class: '',
-    //   });
-    //   handleCloseOpenDelete();
-    // }
+  const deleteSubject = async () => {
+    const data = deleteSubjectId(idDelete);
+    if ((await data) === true) {
+      setIdDelete(-1);
+      handleCloseOpenDelete();
+    } else {
+      setNewSubject({
+        name: '',
+      });
+      setIdDelete(-1);
+      handleCloseOpenDelete();
+    }
+  };
+
+  const update = async () => {
+    const data = updateSubject(idEdit, dataNewSubject.name);
+    if ((await data) === true) {
+      handleCloseEditDialog();
+      subject();
+      setIdEdit(-1);
+    } else {
+      setNewSubject({
+        name: '',
+      });
+      handleCloseEditDialog();
+    }
   };
 
   const handleClickOpenDelete = () => {
@@ -97,6 +115,14 @@ const Subjects = () => {
     subject();
   }, [open, openEdit, openDelete]);
 
+  useEffect(() => {
+    const subject = dataSubject?.find((e) => e.id === idEdit);
+    if (subject) {
+      setNewSubject({
+        name: subject.name,
+      });
+    }
+  }, [idEdit, dataSubject]);
   // eslint-disable-next-line array-callback-return
   dataSubject?.map((e, index) => {
     rows.push(createData(e.id, e.name, String(index + 1)));
@@ -169,6 +195,30 @@ const Subjects = () => {
           <Button onClick={create}>Create</Button>
         </DialogActions>
       </Dialog>
+      <Dialog open={openEdit} onClose={handleCloseEditDialog} fullWidth>
+        <DialogTitle>Form Edit Subject</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin='normal'
+            id='name'
+            label='name'
+            type='string'
+            fullWidth
+            variant='standard'
+            value={dataNewSubject.name}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+            ) => {
+              ChangeValueNewAdmin(e);
+            }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseEditDialog}>Cancel</Button>
+          <Button onClick={update}>update</Button>
+        </DialogActions>
+      </Dialog>
       <Dialog
         open={openDelete}
         onClose={handleCloseOpenDelete}
@@ -192,7 +242,7 @@ const Subjects = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseOpenDelete}>Cancel</Button>
-          <Button onClick={deleteSubjectQuestion} autoFocus>
+          <Button onClick={deleteSubject} autoFocus>
             Accept
           </Button>
         </DialogActions>
