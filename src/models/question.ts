@@ -1,12 +1,10 @@
-export interface iCreateIndicator {
-  id_subject: string;
-  topic: string;
-  description: string;
-  code_number: string;
-  link: string;
+export interface iCreateQuestion {
+  id_indicator: number;
+  question: string;
+  media: string;
 }
-export const createIndicator = async (
-  newData: iCreateIndicator,
+export const createQuestion = async (
+  newData: iCreateQuestion,
 ): Promise<boolean> => {
   var myHeaders = new Headers();
   myHeaders.append(
@@ -16,19 +14,18 @@ export const createIndicator = async (
   myHeaders.append('Content-Type', 'application/json');
 
   var raw = JSON.stringify({
-    id_subject: Number(newData.id_subject),
-    topic: newData.topic,
-    description: newData.description,
-    code_number: newData.code_number,
-    link: newData.link,
+    id_indicator: newData.id_indicator,
+    question: newData.question,
+    media: newData.media,
   });
+
   var requestOptions = {
     method: 'POST',
     headers: myHeaders,
     body: raw,
   };
 
-  const data = await fetch('http://localhost:8080/Indicators', requestOptions)
+  const data = await fetch('http://localhost:8080/Question', requestOptions)
     .then((response) => response.json())
     .then((result) => {
       return result;
@@ -36,7 +33,6 @@ export const createIndicator = async (
     .catch((error) => {
       return error;
     });
-
   if ((await data) === true) {
     return data;
   } else {
@@ -44,20 +40,18 @@ export const createIndicator = async (
   }
 };
 
-export interface IndicatorsData {
+export interface QuestionsData {
   id: number;
-  id_subject: number;
-  topic: string;
-  description: string;
-  code_number: string;
-  link: string;
+  id_indicator: number;
+  question: string;
+  media: string;
 }
-export const getIndicator = async (): Promise<IndicatorsData[]> => {
+export const getQuestion = async (): Promise<QuestionsData[]> => {
   var requestOptions = {
     method: 'GET',
   };
 
-  const data = await fetch('http://localhost:8080/Indicators', requestOptions)
+  const data = await fetch('http://localhost:8080/Questions', requestOptions)
     .then((response) => response.json())
     .then((result) => {
       return result;
@@ -68,7 +62,7 @@ export const getIndicator = async (): Promise<IndicatorsData[]> => {
   return await data.result;
 };
 
-export const deleteIndicatorId = async (id: number): Promise<boolean> => {
+export const deleteQuestionId = async (id: number): Promise<boolean> => {
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
@@ -86,7 +80,7 @@ export const deleteIndicatorId = async (id: number): Promise<boolean> => {
     body: raw,
   };
 
-  const data = await fetch('http://localhost:8080/Indicators', requestOptions)
+  const data = await fetch('http://localhost:8080/Question', requestOptions)
     .then((response) => response.json())
     .then((result) => {
       return result;
@@ -97,9 +91,9 @@ export const deleteIndicatorId = async (id: number): Promise<boolean> => {
   return await data;
 };
 
-export const updateIndicator = async (
+export const updateQuestion = async (
   id: number,
-  newData: iCreateIndicator,
+  dataPut: iCreateQuestion,
 ): Promise<boolean> => {
   var myHeaders = new Headers();
   myHeaders.append(
@@ -110,11 +104,11 @@ export const updateIndicator = async (
 
   var raw = JSON.stringify({
     id: id,
-    id_Indicator: newData.id_subject,
-    topic: newData.topic,
-    description: newData.description,
-    code_number: newData.code_number,
-    link: newData.link,
+    data: JSON.stringify({
+      id_indicator: dataPut.id_indicator,
+      question: dataPut.question,
+      media: dataPut.media,
+    }),
   });
 
   var requestOptions = {
@@ -123,7 +117,7 @@ export const updateIndicator = async (
     body: raw,
   };
 
-  const data = await fetch('http://localhost:8080/Indicators', requestOptions)
+  const data = await fetch('http://localhost:8080/question', requestOptions)
     .then((response) => response.json())
     .then((result) => {
       return result;
