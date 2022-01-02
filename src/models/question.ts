@@ -7,16 +7,18 @@ export const createQuestion = async (
   newData: iCreateQuestion,
 ): Promise<boolean> => {
   var myHeaders = new Headers();
+
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MDY5MDYyOCwiZXhwIjoxNjQwNzA4NjI4fQ.iMldDvR_hw7oqn8uqgs7FNyyJFyO1bECzsgOth-6bb8',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTExOTU3NywiZXhwIjoxNjQxMTM3NTc3fQ.pJf3k8x7MAK-k3CPKy4AE_-FEZiFhdTv-ORfml3A1a4',
   );
+
   myHeaders.append('Content-Type', 'application/json');
 
   var raw = JSON.stringify({
-    id_indicator: newData.id_indicator,
-    question: newData.question,
-    media: newData.media,
+    id_indicator: Number(newData.id_indicator),
+    question: String(newData.question),
+    media: String(newData.media),
   });
 
   var requestOptions = {
@@ -33,8 +35,8 @@ export const createQuestion = async (
     .catch((error) => {
       return error;
     });
-  if ((await data) === true) {
-    return data;
+  if (await data.result) {
+    return true;
   } else {
     return false;
   }
@@ -66,7 +68,7 @@ export const deleteQuestionId = async (id: number): Promise<boolean> => {
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MDY5MDYyOCwiZXhwIjoxNjQwNzA4NjI4fQ.iMldDvR_hw7oqn8uqgs7FNyyJFyO1bECzsgOth-6bb8',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTExOTU3NywiZXhwIjoxNjQxMTM3NTc3fQ.pJf3k8x7MAK-k3CPKy4AE_-FEZiFhdTv-ORfml3A1a4',
   );
   myHeaders.append('Content-Type', 'application/json');
 
@@ -98,7 +100,7 @@ export const updateQuestion = async (
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MDY5MDYyOCwiZXhwIjoxNjQwNzA4NjI4fQ.iMldDvR_hw7oqn8uqgs7FNyyJFyO1bECzsgOth-6bb8',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTExOTU3NywiZXhwIjoxNjQxMTM3NTc3fQ.pJf3k8x7MAK-k3CPKy4AE_-FEZiFhdTv-ORfml3A1a4',
   );
   myHeaders.append('Content-Type', 'application/json');
 

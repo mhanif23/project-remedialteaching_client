@@ -11,87 +11,38 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useEffect } from 'react';
-import ButtonAppBar from '../../components/appBar';
 import DenseTable from '../../components/tables';
+import ButtonAppBar from '../../components/appBar';
 import {
-  createQuestion,
-  deleteQuestionId,
-  getQuestion,
-  QuestionsData,
-  updateQuestion,
-} from '../../models/question';
+  createQuestionAnswer,
+  deleteQuestionAnswerId,
+  getQuestionAnswer,
+  QuestionsAnswerData,
+  updateQuestionAnswer,
+} from '../../models/questAnswer';
 
-const Questions = () => {
+const QuestionsAnswer = () => {
   const [open, setOpen] = React.useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [idEdit, setIdEdit] = React.useState(-1);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [idDelete, setIdDelete] = React.useState(-1);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
-
-  const [dataNewQuestion, setNewQuestion] = React.useState({
-    id_indicator: -1,
-    question: '',
-    media: '',
+  const [idQuestion, setidQuestion] = React.useState(-1);
+  const [questionAnswer, setquestionAnswer] = React.useState({
+    id_question: -1,
+    answer: '',
+    status: false,
   });
 
-  const deletequestion = async () => {
-    const data = deleteQuestionId(idDelete);
-    if ((await data) === true) {
-      setIdDelete(-1);
-      handleCloseOpenDelete();
-    } else {
-      setNewQuestion({
-        id_indicator: -1,
-        question: '',
-        media: '',
-      });
-      setIdDelete(-1);
-      handleCloseOpenDelete();
-    }
-  };
-
-  const update = async () => {
-    const data = updateQuestion(idEdit, dataNewQuestion);
-    if ((await data) === true) {
-      handleCloseEditDialog();
-      question();
-      setIdEdit(-1);
-    } else {
-      setNewQuestion({
-        id_indicator: -1,
-        question: '',
-        media: '',
-      });
-      handleCloseEditDialog();
-    }
-  };
-
-  const handleClickOpenDelete = () => {
-    setOpenDelete(true);
-  };
-
-  const handleCloseOpenDelete = () => {
-    setOpenDelete(false);
-  };
-
-  const handleClickOpenEditDialog = () => {
-    setOpenEdit(true);
-  };
-
-  const handleCloseEditDialog = () => {
-    setOpenEdit(false);
-  };
-  const [dataquestion, setdataquestion] = React.useState<
-    QuestionsData[] | undefined
+  const [questionAnswerall, setquestionAnswerAll] = React.useState<
+    QuestionsAnswerData[] | undefined
   >(undefined);
 
   // eslint-disable-next-line no-restricted-globals
   const ChangeValueNewAdmin = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    setNewQuestion({ ...dataNewQuestion, [e.target.id]: e.target.value });
+    setquestionAnswer({ ...questionAnswer, [e.target.id]: e.target.value });
   };
 
   const handleClickOpen = () => {
@@ -102,15 +53,36 @@ const Questions = () => {
     setOpen(false);
   };
 
+  const handleClickOpenEditDialog = () => {
+    setOpenEdit(true);
+  };
+
+  const handleCloseEditDialog = () => {
+    setOpenEdit(false);
+  };
+
+  const handleClickOpenDelete = () => {
+    setOpenDelete(true);
+  };
+
+  const handleCloseOpenDelete = () => {
+    setOpenDelete(false);
+  };
+
   function createData(
     id: number,
     data1: string,
     data2: string,
     data3: string,
-    data4: string,
     name: string,
   ) {
-    return { id, data1, data2, data3, data4, name };
+    return {
+      id,
+      data1,
+      data2,
+      data3,
+      name,
+    };
   }
 
   function createName(
@@ -118,60 +90,95 @@ const Questions = () => {
     name2: string,
     name3: string,
     name4: string,
-    name5: string,
   ) {
-    return { name1, name2, name3, name4, name5 };
+    return { name1, name2, name3, name4 };
   }
 
-  const tableName = [
-    createName('No', 'id_indicator', 'question', 'media', 'id_question'),
-  ];
+  const tableName = [createName('no', 'id_question', 'answer', 'status')];
 
-  const rows: { id: number; data1: string }[] = [];
-  async function question() {
-    const data = await getQuestion();
-    setdataquestion(data);
+  const rows: {
+    id: number;
+    data1: string;
+    data2: string;
+    data3: string;
+    name: string;
+  }[] = [];
+  async function questionAnswerList() {
+    const data = await getQuestionAnswer(idQuestion);
+    setquestionAnswerAll(data);
   }
   useEffect(() => {
-    question();
-  }, [open, openEdit, openDelete]);
-
-  useEffect(() => {
-    const question = dataquestion?.find((e) => e.id === idEdit);
-    if (question) {
-      setNewQuestion({
-        id_indicator: question.id_indicator,
-        question: question.question,
-        media: question.media,
+    const answer = questionAnswerall?.find((e) => e.id === idEdit);
+    if (answer) {
+      setquestionAnswer({
+        id_question: answer.id_question,
+        answer: answer.answer,
+        status: answer.status,
       });
     }
-  }, [idEdit, dataquestion]);
+  }, [idEdit, questionAnswerall]);
+
   // eslint-disable-next-line array-callback-return
-  dataquestion?.map((e, index) => {
+  questionAnswerall?.map((e, index) => {
     rows.push(
       createData(
         e.id,
-        String(e.id_indicator),
-        e.question,
-        e.media,
-        String(e.id),
+        String(e.id_question),
+        e.answer,
+        String(e.status),
         String(index + 1),
       ),
     );
   });
-
   const create = async () => {
-    const data = await createQuestion(dataNewQuestion);
-    if (data === true) {
-      setNewQuestion({
-        id_indicator: -1,
-        question: '',
-        media: '',
+    const data = createQuestionAnswer(questionAnswer);
+    if ((await data) === true) {
+      setquestionAnswer({
+        id_question: -1,
+        answer: '',
+        status: false,
       });
       handleClose();
+      questionAnswerList();
+    } else {
     }
   };
 
+  const deleteDiagnostik = async () => {
+    const data = deleteQuestionAnswerId(idDelete);
+    if ((await data) === true) {
+      handleCloseOpenDelete();
+      questionAnswerList();
+    } else {
+      setquestionAnswer({
+        id_question: -1,
+        answer: '',
+        status: false,
+      });
+      setIdDelete(-1);
+      handleCloseOpenDelete();
+    }
+  };
+
+  const update = async () => {
+    const data = updateQuestionAnswer(
+      idEdit,
+      questionAnswer.id_question,
+      questionAnswer.answer,
+      questionAnswer.status,
+    );
+    if ((await data) === true) {
+      handleCloseEditDialog();
+      questionAnswerList();
+    } else {
+      setquestionAnswer({
+        id_question: -1,
+        answer: '',
+        status: false,
+      });
+      handleCloseEditDialog();
+    }
+  };
   // eslint-disable-next-line react-hooks/exhaustive-deps
 
   return (
@@ -179,18 +186,42 @@ const Questions = () => {
       <ButtonAppBar />
       <Container>
         <Typography align='center' variant='h2' sx={{ mt: 5 }}>
-          Question List
+          Daftar List Jawaban
         </Typography>
+        <Box>
+          <TextField
+            autoFocus
+            margin='normal'
+            id='idQuestion'
+            label='idQuestion'
+            type='number'
+            fullWidth
+            variant='standard'
+            value={idQuestion}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setidQuestion(Number(e.target.value));
+            }}
+          />
+          <Button
+            autoFocus
+            variant='contained'
+            color='primary'
+            onClick={questionAnswerList}
+            sx={{ mt: 2, mb: 5 }}
+          >
+            Find
+          </Button>
+        </Box>
         <Box>
           <DenseTable
             rows={rows}
-            tableName={tableName}
             handleClickOpenEditDialog={handleClickOpenEditDialog}
             handleCloseEditDialog={handleCloseEditDialog}
             setIdEdit={setIdEdit}
             setIdDelete={setIdDelete}
             handleClickOpenDelete={handleClickOpenDelete}
             handleCloseOpenDelete={handleCloseOpenDelete}
+            tableName={tableName}
           />
         </Box>
         <Button
@@ -205,17 +236,17 @@ const Questions = () => {
       </Container>
 
       <Dialog open={open} onClose={handleClose} fullWidth>
-        <DialogTitle>Form Question</DialogTitle>
+        <DialogTitle>Form Question Answer</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin='normal'
-            id='id_indicator'
-            label='id_indicator'
-            type='string'
+            id='id_question'
+            label='id_question'
+            type='number'
             fullWidth
             variant='standard'
-            value={dataNewQuestion.id_indicator}
+            value={questionAnswer.id_question}
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
             ) => {
@@ -227,12 +258,12 @@ const Questions = () => {
           <TextField
             autoFocus
             margin='normal'
-            id='question'
-            label='question'
+            id='answer'
+            label='answer'
             type='string'
             fullWidth
             variant='standard'
-            value={dataNewQuestion.question}
+            value={questionAnswer.answer}
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
             ) => {
@@ -244,12 +275,12 @@ const Questions = () => {
           <TextField
             autoFocus
             margin='normal'
-            id='media'
-            label='media'
-            type='string'
+            id='status'
+            label='status'
+            type='bool'
             fullWidth
             variant='standard'
-            value={dataNewQuestion.media}
+            value={questionAnswer.status}
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
             ) => {
@@ -262,18 +293,19 @@ const Questions = () => {
           <Button onClick={create}>Create</Button>
         </DialogActions>
       </Dialog>
+
       <Dialog open={openEdit} onClose={handleCloseEditDialog} fullWidth>
-        <DialogTitle>Form Edit question</DialogTitle>
+        <DialogTitle>Form Update Question Answer</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin='normal'
-            id='id_indicator'
-            label='id_indicator'
-            type='string'
+            id='id_question'
+            label='id_question'
+            type='number'
             fullWidth
             variant='standard'
-            value={dataNewQuestion.id_indicator}
+            value={questionAnswer.id_question}
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
             ) => {
@@ -285,12 +317,12 @@ const Questions = () => {
           <TextField
             autoFocus
             margin='normal'
-            id='question'
-            label='question'
+            id='answer'
+            label='answer'
             type='string'
             fullWidth
             variant='standard'
-            value={dataNewQuestion.question}
+            value={questionAnswer.answer}
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
             ) => {
@@ -302,12 +334,12 @@ const Questions = () => {
           <TextField
             autoFocus
             margin='normal'
-            id='media'
-            label='media'
-            type='string'
+            id='status'
+            label='status'
+            type='boolean'
             fullWidth
             variant='standard'
-            value={dataNewQuestion.media}
+            value={questionAnswer.status}
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
             ) => {
@@ -317,9 +349,10 @@ const Questions = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseEditDialog}>Cancel</Button>
-          <Button onClick={update}>update</Button>
+          <Button onClick={update}>Update</Button>
         </DialogActions>
       </Dialog>
+
       <Dialog
         open={openDelete}
         onClose={handleCloseOpenDelete}
@@ -329,21 +362,12 @@ const Questions = () => {
         <DialogTitle id='alert-dialog-title'>{'Delete this data?'}</DialogTitle>
         <DialogContent>
           <DialogContentText id='alert-dialog-description'>
-            Are you sure to delete this{' '}
-            {
-              // eslint-disable-next-line array-callback-return
-              dataquestion?.map((e) => {
-                if (e.id === idDelete) {
-                  return e.id;
-                }
-              })
-            }
-            ?
+            Are you sure to delete this {idDelete}?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseOpenDelete}>Cancel</Button>
-          <Button onClick={deletequestion} autoFocus>
+          <Button onClick={deleteDiagnostik} autoFocus>
             Accept
           </Button>
         </DialogActions>
@@ -352,4 +376,4 @@ const Questions = () => {
   );
 };
 
-export default Questions;
+export default QuestionsAnswer;

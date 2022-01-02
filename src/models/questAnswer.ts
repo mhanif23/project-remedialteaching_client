@@ -1,22 +1,21 @@
-export interface iCreateQuestion {
+export interface iCreateQuestionAnswer {
   id_question: number;
   answer: string;
   status: boolean;
 }
-export const createQuestion = async (
-  newData: iCreateQuestion,
+export const createQuestionAnswer = async (
+  newData: iCreateQuestionAnswer,
 ): Promise<boolean> => {
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MDY5MDYyOCwiZXhwIjoxNjQwNzA4NjI4fQ.iMldDvR_hw7oqn8uqgs7FNyyJFyO1bECzsgOth-6bb8',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTExOTU3NywiZXhwIjoxNjQxMTM3NTc3fQ.pJf3k8x7MAK-k3CPKy4AE_-FEZiFhdTv-ORfml3A1a4',
   );
   myHeaders.append('Content-Type', 'application/json');
-
   var raw = JSON.stringify({
-    id_question: newData.id_question,
+    id_question: Number(newData.id_question),
     answer: newData.answer,
-    status: newData.status,
+    status: Boolean(newData.status),
   });
 
   var requestOptions = {
@@ -37,40 +36,34 @@ export const createQuestion = async (
       return error;
     });
   if ((await data) === true) {
-    return data;
+    return true;
   } else {
     return false;
   }
 };
 
-export interface QuestionsData {
+export interface QuestionsAnswerData {
   id: number;
-  id_indicator: number;
-  question: string;
-  media: string;
+  id_question: number;
+  answer: string;
+  status: boolean;
 }
-export const getQuestion = async (
+export const getQuestionAnswer = async (
   id_question: number,
-): Promise<QuestionsData[]> => {
+): Promise<QuestionsAnswerData[]> => {
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MDY5MDYyOCwiZXhwIjoxNjQwNzA4NjI4fQ.iMldDvR_hw7oqn8uqgs7FNyyJFyO1bECzsgOth-6bb8',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTExOTU3NywiZXhwIjoxNjQxMTM3NTc3fQ.pJf3k8x7MAK-k3CPKy4AE_-FEZiFhdTv-ORfml3A1a4',
   );
-  myHeaders.append('Content-Type', 'application/json');
-
-  var raw = JSON.stringify({
-    id_question: id_question,
-  });
 
   var requestOptions = {
     method: 'GET',
     headers: myHeaders,
-    body: raw,
   };
 
   const data = await fetch(
-    'http://localhost:8080/question_answers_by_id_question',
+    `http://localhost:8080/question_answers_by_id_question?id_question=${id_question}`,
     requestOptions,
   )
     .then((response) => response.json())
@@ -80,6 +73,7 @@ export const getQuestion = async (
     .catch((error) => {
       return error;
     });
+  console.log(data);
   return await data.result;
 };
 
@@ -87,7 +81,7 @@ export const deleteQuestionAnswerId = async (id: number): Promise<boolean> => {
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MDY5MDYyOCwiZXhwIjoxNjQwNzA4NjI4fQ.iMldDvR_hw7oqn8uqgs7FNyyJFyO1bECzsgOth-6bb8',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTExOTU3NywiZXhwIjoxNjQxMTM3NTc3fQ.pJf3k8x7MAK-k3CPKy4AE_-FEZiFhdTv-ORfml3A1a4',
   );
   myHeaders.append('Content-Type', 'application/json');
 
@@ -115,24 +109,24 @@ export const deleteQuestionAnswerId = async (id: number): Promise<boolean> => {
   return await data;
 };
 
-export const updateQuestion = async (
+export const updateQuestionAnswer = async (
   id: number,
-  id_indicator: number,
-  question: string,
-  media: string,
+  id_question: number,
+  answer: string,
+  status: boolean,
 ): Promise<boolean> => {
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MDY5MDYyOCwiZXhwIjoxNjQwNzA4NjI4fQ.iMldDvR_hw7oqn8uqgs7FNyyJFyO1bECzsgOth-6bb8',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTExOTU3NywiZXhwIjoxNjQxMTM3NTc3fQ.pJf3k8x7MAK-k3CPKy4AE_-FEZiFhdTv-ORfml3A1a4',
   );
   myHeaders.append('Content-Type', 'application/json');
 
   var raw = JSON.stringify({
     id: id,
-    id_indicator: id_indicator,
-    question: question,
-    media: media,
+    id_question: id_question,
+    answer: answer,
+    status: status,
   });
 
   var requestOptions = {
@@ -141,7 +135,10 @@ export const updateQuestion = async (
     body: raw,
   };
 
-  const data = await fetch('http://localhost:8080/question', requestOptions)
+  const data = await fetch(
+    'http://localhost:8080/question_answers',
+    requestOptions,
+  )
     .then((response) => response.json())
     .then((result) => {
       return result;

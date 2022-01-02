@@ -9,10 +9,10 @@ import BerandaAdmin from './page/admin/beranda';
 import Indicators from './page/admin/indicators';
 import Admins from './page/admin/admins';
 import Questions from './page/admin/questions';
-import QuestionsTypes from './page/admin/questionsType';
 import Students from './page/admin/students';
 import Subjects from './page/admin/subject';
 import Diagnostik from './page/admin/diagnostik';
+import QuestionsAnswer from './page/admin/questionsAnswer';
 
 function App() {
   const ProtectedRouteData = [
@@ -77,8 +77,8 @@ function App() {
         <Route exact path='/questions'>
           <Questions />
         </Route>
-        <Route exact path='/questionsType'>
-          <QuestionsTypes />
+        <Route exact path='/questionsAnswer'>
+          <QuestionsAnswer />
         </Route>
         <Route exact path='/studentss'>
           <Students />
