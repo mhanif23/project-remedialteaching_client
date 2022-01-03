@@ -104,3 +104,24 @@ export const deleteStudent = async (id: number): Promise<boolean> => {
     });
   return await data;
 };
+
+export const getAnswerDiagnostikStudent = async (
+  id: number,
+): Promise<number> => {
+  var requestOptions = {
+    method: 'GET',
+  };
+
+  const data = await fetch(
+    `http://localhost:8080/diagnostikAnswers_by_istudent?id_student=${id}`,
+    requestOptions,
+  )
+    .then((response) => response.json())
+    .then((result) => {
+      return result;
+    })
+    .catch((error) => {
+      return error;
+    });
+  return data.result.length;
+};
