@@ -11,7 +11,7 @@ export const createIndicator = async (
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTExOTU3NywiZXhwIjoxNjQxMTM3NTc3fQ.pJf3k8x7MAK-k3CPKy4AE_-FEZiFhdTv-ORfml3A1a4',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTI3OTUzNywiZXhwIjoxNjQxMjk3NTM3fQ.iUFTj8QqGvJ36mgsV6o5HZe8ndxdF2zhgJkNOaozsOY',
   );
   myHeaders.append('Content-Type', 'application/json');
 
@@ -72,7 +72,7 @@ export const deleteIndicatorId = async (id: number): Promise<boolean> => {
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTExOTU3NywiZXhwIjoxNjQxMTM3NTc3fQ.pJf3k8x7MAK-k3CPKy4AE_-FEZiFhdTv-ORfml3A1a4',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTI3OTUzNywiZXhwIjoxNjQxMjk3NTM3fQ.iUFTj8QqGvJ36mgsV6o5HZe8ndxdF2zhgJkNOaozsOY',
   );
   myHeaders.append('Content-Type', 'application/json');
 
@@ -104,7 +104,7 @@ export const updateIndicator = async (
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTExOTU3NywiZXhwIjoxNjQxMTM3NTc3fQ.pJf3k8x7MAK-k3CPKy4AE_-FEZiFhdTv-ORfml3A1a4',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTI3OTUzNywiZXhwIjoxNjQxMjk3NTM3fQ.iUFTj8QqGvJ36mgsV6o5HZe8ndxdF2zhgJkNOaozsOY',
   );
   myHeaders.append('Content-Type', 'application/json');
 

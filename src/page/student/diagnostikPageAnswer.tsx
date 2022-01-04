@@ -8,17 +8,21 @@ import {
   DialogContentText,
   DialogTitle,
   Box,
+  FormControl,
 } from '@mui/material';
 import React, { useEffect } from 'react';
 import {
   getSoalDiagnopstik,
   idiagnostik_question,
 } from '../../models/diagnostik_question';
+import { iCreate_diagnostik_student_answer } from '../../models/diagnostik_student_answer';
 import AnswerChoice from './component/answerChoice';
 import ButtonAppBarStudent from './component/appBarStudent';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const DiagnostikPageAnswer = () => {
   const [studentStatus, setstudentStatus] = React.useState(0);
+  const [loading, setLoading] = React.useState(false);
   const [DiagnostikQuestion, setDiagnostikQuestion] = React.useState<
     idiagnostik_question[] | undefined
   >(undefined);
@@ -29,14 +33,36 @@ const DiagnostikPageAnswer = () => {
   useEffect(() => {
     soalDiangostik();
   }, []);
-  const [studentAnswer, setstudentAnswer] = React.useState([]);
+  const studentAnswer = React.useRef<iCreate_diagnostik_student_answer[]>([]);
   const [openPopUp, setopenPopUp] = React.useState(false);
 
-  const addNewStudentAnswer = (
-    id_diagnostik: number,
-    id_student: number,
-    answer: string,
-  ) => {};
+  const addNewStudentAnswer = (id_diagnostik: number, answer: string) => {
+    const id_student = 1;
+    if (studentAnswer.current.length !== 0) {
+      const data = studentAnswer.current.filter((e) => {
+        return e.id_question_diagnostik !== id_diagnostik;
+      });
+      data.push({
+        id_question_diagnostik: id_diagnostik,
+        id_student: id_student,
+        answer: answer,
+      });
+      studentAnswer.current = data;
+    } else {
+      const data = [];
+      data.push({
+        id_question_diagnostik: id_diagnostik,
+        id_student: id_student,
+        answer: answer,
+      });
+      studentAnswer.current = data;
+    }
+  };
+
+  const submitAnswer = () => {
+    setLoading(true);
+    console.log(studentAnswer.current);
+  };
 
   const handleopenPopUp = () => {
     setopenPopUp(true);
@@ -77,16 +103,30 @@ const DiagnostikPageAnswer = () => {
         ) : (
           <>
             <Box>
-              {DiagnostikQuestion
-                ? DiagnostikQuestion.map((e) => {
-                    return (
-                      <AnswerChoice
-                        question={e}
-                        addNewStudentAnswer={addNewStudentAnswer}
-                      />
-                    );
-                  })
-                : ''}
+              <FormControl>
+                {DiagnostikQuestion
+                  ? DiagnostikQuestion.map((e, index) => {
+                      return (
+                        <AnswerChoice
+                          question={e}
+                          addNewStudentAnswer={addNewStudentAnswer}
+                          index={index}
+                        />
+                      );
+                    })
+                  : ''}
+              </FormControl>
+            </Box>
+            <Box>
+              <Button
+                onClick={submitAnswer}
+                fullWidth
+                variant='contained'
+                disabled={loading}
+              >
+                {loading && <CircularProgress />}
+                Selesai{' '}
+              </Button>
             </Box>
           </>
         )}
