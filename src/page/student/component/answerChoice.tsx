@@ -1,4 +1,4 @@
-import { Box, CardMedia, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import React from 'react';
 import { idiagnostik_question } from '../../../models/diagnostik_question';
 import Radio from '@mui/material/Radio';

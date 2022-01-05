@@ -8,7 +8,7 @@ const DiagnostikStudentPage = () => {
   const [studentStatus, setstudentStatus] = React.useState('new');
 
   async function getStudentInfo() {
-    const data = await getAnswerDiagnostikStudent(7);
+    const data = await getAnswerDiagnostikStudent(13);
     if (data === 0) {
       setstudentStatus('new');
     } else {

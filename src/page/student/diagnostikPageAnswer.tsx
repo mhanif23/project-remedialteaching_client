@@ -15,20 +15,35 @@ import {
   getSoalDiagnopstik,
   idiagnostik_question,
 } from '../../models/diagnostik_question';
-import { iCreate_diagnostik_student_answer } from '../../models/diagnostik_student_answer';
+import {
+  createDiagnostikStudentAnswer,
+  iCreate_diagnostik_student_answer,
+} from '../../models/diagnostik_student_answer';
 import AnswerChoice from './component/answerChoice';
 import ButtonAppBarStudent from './component/appBarStudent';
 import CircularProgress from '@mui/material/CircularProgress';
+import { Toast } from '../../components/toast';
 
 const DiagnostikPageAnswer = () => {
   const [studentStatus, setstudentStatus] = React.useState(0);
+  const [openToast, setOpenToast] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [DiagnostikQuestion, setDiagnostikQuestion] = React.useState<
     idiagnostik_question[] | undefined
   >(undefined);
+
+  const handleToastOpen = () => {
+    setOpenToast(true);
+  };
+  const handleToastClose = () => {
+    setOpenToast(false);
+  };
   async function soalDiangostik() {
     const data = await getSoalDiagnopstik();
     setDiagnostikQuestion(data);
+  }
+  function refreshPage() {
+    window.location.reload();
   }
   useEffect(() => {
     soalDiangostik();
@@ -37,7 +52,7 @@ const DiagnostikPageAnswer = () => {
   const [openPopUp, setopenPopUp] = React.useState(false);
 
   const addNewStudentAnswer = (id_diagnostik: number, answer: string) => {
-    const id_student = 1;
+    const id_student = 13;
     if (studentAnswer.current.length !== 0) {
       const data = studentAnswer.current.filter((e) => {
         return e.id_question_diagnostik !== id_diagnostik;
@@ -59,9 +74,18 @@ const DiagnostikPageAnswer = () => {
     }
   };
 
-  const submitAnswer = () => {
-    setLoading(true);
-    console.log(studentAnswer.current);
+  const submitAnswer = async () => {
+    if (DiagnostikQuestion?.length !== studentAnswer.current.length) {
+      handleToastOpen();
+    } else {
+      setLoading(true);
+      const newAnswer = studentAnswer.current;
+      const data = await createDiagnostikStudentAnswer(newAnswer);
+      if (data) {
+        setLoading(false);
+        refreshPage();
+      }
+    }
   };
 
   const handleopenPopUp = () => {
@@ -156,6 +180,12 @@ const DiagnostikPageAnswer = () => {
           </Button>
         </DialogActions>
       </Dialog>
+      <Toast
+        open={openToast}
+        handleClose={handleToastClose}
+        message='Please check your answer'
+        severity='error'
+      />
     </>
   );
 };

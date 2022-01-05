@@ -27,7 +27,7 @@ export const createDiagnostikQuestion = async (
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTI3OTUzNywiZXhwIjoxNjQxMjk3NTM3fQ.iUFTj8QqGvJ36mgsV6o5HZe8ndxdF2zhgJkNOaozsOY',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTM3MTQ0OSwiZXhwIjoxNjQxMzg5NDQ5fQ.70zjuCcKPpo7TsHanba4vllsAVq67Db0j3dX9rckirM',
   );
   myHeaders.append('Content-Type', 'application/json');
 
@@ -95,7 +95,7 @@ export const updateDiagnostikQuestion = async (
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTI3OTUzNywiZXhwIjoxNjQxMjk3NTM3fQ.iUFTj8QqGvJ36mgsV6o5HZe8ndxdF2zhgJkNOaozsOY',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTM3MTQ0OSwiZXhwIjoxNjQxMzg5NDQ5fQ.70zjuCcKPpo7TsHanba4vllsAVq67Db0j3dX9rckirM',
   );
   myHeaders.append('Content-Type', 'application/json');
 
@@ -138,7 +138,7 @@ export const deleteDiagnostikQuestion = async (
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTI3OTUzNywiZXhwIjoxNjQxMjk3NTM3fQ.iUFTj8QqGvJ36mgsV6o5HZe8ndxdF2zhgJkNOaozsOY',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTM3MTQ0OSwiZXhwIjoxNjQxMzg5NDQ5fQ.70zjuCcKPpo7TsHanba4vllsAVq67Db0j3dX9rckirM',
   );
   myHeaders.append('Content-Type', 'application/json');
 

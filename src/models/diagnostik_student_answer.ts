@@ -13,12 +13,12 @@ export interface iStudentAnswerDiagnostik {
 }
 
 export const createDiagnostikStudentAnswer = async (
-  newData: iCreate_diagnostik_student_answer,
+  newData: iCreate_diagnostik_student_answer[],
 ): Promise<boolean> => {
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN0dWRlbnQiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTY0MTI3ODU4NSwiZXhwIjoxNjQxMjk2NTg1fQ.79PS1F_uOh7BgB3qUl_RJ-zBFFv6GC2JRpJM9Ew44rw',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN0dWRlbnQiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTY0MTM3MTQxMSwiZXhwIjoxNjQxMzg5NDExfQ.zdW0Jyq62EDeUUD6sigBaDyqwMW2n8dXMqvhikjN1xE',
   );
   myHeaders.append('Content-Type', 'application/json');
 
