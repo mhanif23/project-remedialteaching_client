@@ -43,6 +43,8 @@ export default function DenseTable({
                 <TableCell align='center'>{head.name7}&nbsp;</TableCell>
                 <TableCell align='center'>{head.name8}&nbsp;</TableCell>
                 <TableCell align='center'>{head.name9}&nbsp;</TableCell>
+                <TableCell align='center'>{head.name10}&nbsp;</TableCell>
+                <TableCell align='center'>{head.name11}&nbsp;</TableCell>
               </TableRow>
             ))}
           </TableHead>
@@ -93,6 +95,16 @@ export default function DenseTable({
                 )}
                 {row.data9 ? (
                   <TableCell align='center'>{row.data9}</TableCell>
+                ) : (
+                  ''
+                )}
+                {row.data10 ? (
+                  <TableCell align='center'>{row.data10}</TableCell>
+                ) : (
+                  ''
+                )}
+                {row.data11 ? (
+                  <TableCell align='center'>{row.data11}</TableCell>
                 ) : (
                   ''
                 )}

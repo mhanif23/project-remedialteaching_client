@@ -7,6 +7,9 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
   TextField,
   Typography,
 } from '@mui/material';
@@ -20,6 +23,10 @@ import {
   idiagnostik_question,
   updateDiagnostikQuestion,
 } from '../../models/diagnostik_question';
+
+import { IndicatorsData, getIndicatorBySubject } from '../../models/indicator';
+
+import { getSubject, SubjectsData } from '../../models/subjects';
 
 const Diagnostik = () => {
   const [open, setOpen] = React.useState(false);
@@ -36,7 +43,47 @@ const Diagnostik = () => {
     option5: '',
     trueAnswer: '',
     media: '',
+    idIndicator: '',
+    idSubject: '',
   });
+
+  const [dataSubject, setdataSubject] = React.useState<
+    SubjectsData[] | undefined
+  >(undefined);
+
+  const [dataIndicator, setdataIndicator] = React.useState<
+    IndicatorsData[] | undefined
+  >(undefined);
+
+  const ChangeValueNewAdminSelect = (event: SelectChangeEvent) => {
+    setSoalDiagnostik({
+      ...soalDiagnostik,
+      idSubject: String(event.target.value),
+    });
+  };
+
+  const ChangeValueIndicator = (event: SelectChangeEvent) => {
+    setSoalDiagnostik({
+      ...soalDiagnostik,
+      idIndicator: String(event.target.value),
+    });
+  };
+
+  async function subject() {
+    const data = await getSubject();
+    setdataSubject(data);
+  }
+  useEffect(() => {
+    subject();
+  }, []);
+  async function Indicator() {
+    const data = await getIndicatorBySubject(Number(soalDiagnostik.idSubject));
+    setdataIndicator(data);
+  }
+  useEffect(() => {
+    Indicator();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [soalDiagnostik.idSubject]);
 
   const [soalDiagnostikall, setSoalDiagnostikAll] = React.useState<
     idiagnostik_question[] | undefined
@@ -83,6 +130,8 @@ const Diagnostik = () => {
     data6: string,
     data7: string,
     data8: string,
+    data9: number,
+    data10: number,
     name: string,
   ) {
     return {
@@ -95,6 +144,8 @@ const Diagnostik = () => {
       data6,
       data7,
       data8,
+      data9,
+      data10,
       name,
     };
   }
@@ -109,8 +160,22 @@ const Diagnostik = () => {
     name7: string,
     name8: string,
     name9: string,
+    name10: string,
+    name11: string,
   ) {
-    return { name1, name2, name3, name4, name5, name6, name7, name8, name9 };
+    return {
+      name1,
+      name2,
+      name3,
+      name4,
+      name5,
+      name6,
+      name7,
+      name8,
+      name9,
+      name10,
+      name11,
+    };
   }
 
   const tableName = [
@@ -124,6 +189,8 @@ const Diagnostik = () => {
       'opsi5',
       'media',
       'jawaban',
+      'id_indicator',
+      'id_subjek',
     ),
   ];
 
@@ -160,6 +227,8 @@ const Diagnostik = () => {
         option5: soal.option5,
         media: soal.media ? soal.media : '-',
         trueAnswer: soal.trueAnswer,
+        idIndicator: String(soal.idIndicator),
+        idSubject: String(soal.idSubject),
       });
     }
   }, [idEdit, soalDiagnostikall]);
@@ -177,6 +246,8 @@ const Diagnostik = () => {
         e.option5,
         e.media ? e.media : ' ',
         e.trueAnswer,
+        e.idIndicator,
+        e.idSubject,
 
         String(index + 1),
       ),
@@ -197,6 +268,8 @@ const Diagnostik = () => {
         option5: '',
         trueAnswer: '',
         media: '',
+        idIndicator: '',
+        idSubject: '',
       });
       setIdEdit(-1);
       handleClose();
@@ -218,6 +291,8 @@ const Diagnostik = () => {
         option5: '',
         trueAnswer: '',
         media: '',
+        idIndicator: '',
+        idSubject: '',
       });
       setIdDelete(-1);
       handleCloseOpenDelete();
@@ -239,6 +314,8 @@ const Diagnostik = () => {
         option5: '',
         trueAnswer: '',
         media: '',
+        idIndicator: '',
+        idSubject: '',
       });
       handleCloseEditDialog();
     }
@@ -294,6 +371,38 @@ const Diagnostik = () => {
             }}
           />
         </DialogContent>
+        <DialogContent>
+          <DialogContentText>subject</DialogContentText>
+          <Select
+            fullWidth
+            value={soalDiagnostik.idSubject}
+            label='Subject'
+            onChange={(e: SelectChangeEvent) => {
+              ChangeValueNewAdminSelect(e);
+            }}
+          >
+            {dataSubject?.map((e) => {
+              return <MenuItem value={e.id}>{e.name}</MenuItem>;
+            })}
+          </Select>
+        </DialogContent>
+        <DialogContent>
+          <DialogContentText>Indicator</DialogContentText>
+          <Select
+            disabled={soalDiagnostik.idSubject === '' ? true : false}
+            fullWidth
+            value={soalDiagnostik.idIndicator}
+            label='indicator'
+            onChange={(e: SelectChangeEvent) => {
+              ChangeValueIndicator(e);
+            }}
+          >
+            {dataIndicator?.map((e) => {
+              return <MenuItem value={e.id}>{e.code_number}</MenuItem>;
+            })}
+          </Select>
+        </DialogContent>
+
         <DialogContent>
           <TextField
             autoFocus
@@ -437,6 +546,37 @@ const Diagnostik = () => {
               ChangeValueNewAdmin(e);
             }}
           />
+        </DialogContent>
+        <DialogContent>
+          <DialogContentText>subject</DialogContentText>
+          <Select
+            fullWidth
+            value={soalDiagnostik.idSubject}
+            label='Subject'
+            onChange={(e: SelectChangeEvent) => {
+              ChangeValueNewAdminSelect(e);
+            }}
+          >
+            {dataSubject?.map((e) => {
+              return <MenuItem value={e.id}>{e.name}</MenuItem>;
+            })}
+          </Select>
+        </DialogContent>
+        <DialogContent>
+          <DialogContentText>indicator</DialogContentText>
+          <Select
+            disabled={soalDiagnostik.idSubject === '' ? true : false}
+            fullWidth
+            value={soalDiagnostik.idIndicator}
+            label='indicator'
+            onChange={(e: SelectChangeEvent) => {
+              ChangeValueIndicator(e);
+            }}
+          >
+            {dataIndicator?.map((e) => {
+              return <MenuItem value={e.id}>{e.code_number}</MenuItem>;
+            })}
+          </Select>
         </DialogContent>
         <DialogContent>
           <TextField

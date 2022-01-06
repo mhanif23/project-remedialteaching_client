@@ -18,7 +18,7 @@ export const createDiagnostikStudentAnswer = async (
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN0dWRlbnQiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTY0MTM3MTQxMSwiZXhwIjoxNjQxMzg5NDExfQ.zdW0Jyq62EDeUUD6sigBaDyqwMW2n8dXMqvhikjN1xE',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN0dWRlbnQiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTY0MTQ1Njk4MSwiZXhwIjoxNjQxNDc0OTgxfQ.u3VvnaqZlAOPGAmG48Q1RNAHpW763A9kxqyy_JcRYdY',
   );
   myHeaders.append('Content-Type', 'application/json');
 

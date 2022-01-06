@@ -8,6 +8,8 @@ export interface idiagnostik_question {
   option5: string;
   trueAnswer: string;
   media?: string;
+  idIndicator: number;
+  idSubject: number;
 }
 
 export interface iCreatediagnostik_question {
@@ -19,6 +21,8 @@ export interface iCreatediagnostik_question {
   option5: string;
   trueAnswer: string;
   media?: string;
+  idIndicator: string;
+  idSubject: string;
 }
 
 export const createDiagnostikQuestion = async (
@@ -27,10 +31,9 @@ export const createDiagnostikQuestion = async (
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTM3MTQ0OSwiZXhwIjoxNjQxMzg5NDQ5fQ.70zjuCcKPpo7TsHanba4vllsAVq67Db0j3dX9rckirM',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTQ1NjcyNCwiZXhwIjoxNjQxNDc0NzI0fQ.rmGwfv-uLzKp7rP0yfwe3g8lpMltuI6N3YYjjWCl0N0',
   );
   myHeaders.append('Content-Type', 'application/json');
-
   var raw = JSON.stringify({
     question: newData.question,
     option1: newData.option1,
@@ -40,6 +43,8 @@ export const createDiagnostikQuestion = async (
     option5: newData.option5,
     trueAnswer: newData.trueAnswer,
     media: newData.media,
+    idIndicator: Number(newData.idIndicator),
+    idSubject: Number(newData.idSubject),
   });
 
   var requestOptions = {
@@ -95,7 +100,7 @@ export const updateDiagnostikQuestion = async (
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTM3MTQ0OSwiZXhwIjoxNjQxMzg5NDQ5fQ.70zjuCcKPpo7TsHanba4vllsAVq67Db0j3dX9rckirM',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTQ1NjcyNCwiZXhwIjoxNjQxNDc0NzI0fQ.rmGwfv-uLzKp7rP0yfwe3g8lpMltuI6N3YYjjWCl0N0',
   );
   myHeaders.append('Content-Type', 'application/json');
 
@@ -109,6 +114,8 @@ export const updateDiagnostikQuestion = async (
     option5: body.option5,
     trueAnswer: body.trueAnswer,
     media: body.media,
+    idIndicator: Number(body.idIndicator),
+    idSubject: Number(body.idSubject),
   });
 
   var requestOptions = {
@@ -138,7 +145,7 @@ export const deleteDiagnostikQuestion = async (
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTM3MTQ0OSwiZXhwIjoxNjQxMzg5NDQ5fQ.70zjuCcKPpo7TsHanba4vllsAVq67Db0j3dX9rckirM',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTQ1NjcyNCwiZXhwIjoxNjQxNDc0NzI0fQ.rmGwfv-uLzKp7rP0yfwe3g8lpMltuI6N3YYjjWCl0N0',
   );
   myHeaders.append('Content-Type', 'application/json');
 

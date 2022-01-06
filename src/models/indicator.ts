@@ -11,7 +11,7 @@ export const createIndicator = async (
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTM3MTQ0OSwiZXhwIjoxNjQxMzg5NDQ5fQ.70zjuCcKPpo7TsHanba4vllsAVq67Db0j3dX9rckirM',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTQ1NjcyNCwiZXhwIjoxNjQxNDc0NzI0fQ.rmGwfv-uLzKp7rP0yfwe3g8lpMltuI6N3YYjjWCl0N0',
   );
   myHeaders.append('Content-Type', 'application/json');
 
@@ -52,6 +52,28 @@ export interface IndicatorsData {
   code_number: string;
   link: string;
 }
+
+export const getIndicatorBySubject = async (
+  id: number,
+): Promise<IndicatorsData[]> => {
+  var requestOptions = {
+    method: 'GET',
+  };
+
+  const data = await fetch(
+    `http://localhost:8080/IndicatorsBySubject?idSubject=${id}`,
+    requestOptions,
+  )
+    .then((response) => response.json())
+    .then((result) => {
+      return result;
+    })
+    .catch((error) => {
+      return error;
+    });
+  return await data.result;
+};
+
 export const getIndicator = async (): Promise<IndicatorsData[]> => {
   var requestOptions = {
     method: 'GET',
@@ -72,7 +94,7 @@ export const deleteIndicatorId = async (id: number): Promise<boolean> => {
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTM3MTQ0OSwiZXhwIjoxNjQxMzg5NDQ5fQ.70zjuCcKPpo7TsHanba4vllsAVq67Db0j3dX9rckirM',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTQ1NjcyNCwiZXhwIjoxNjQxNDc0NzI0fQ.rmGwfv-uLzKp7rP0yfwe3g8lpMltuI6N3YYjjWCl0N0',
   );
   myHeaders.append('Content-Type', 'application/json');
 
@@ -104,7 +126,7 @@ export const updateIndicator = async (
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTM3MTQ0OSwiZXhwIjoxNjQxMzg5NDQ5fQ.70zjuCcKPpo7TsHanba4vllsAVq67Db0j3dX9rckirM',
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTQ1NjcyNCwiZXhwIjoxNjQxNDc0NzI0fQ.rmGwfv-uLzKp7rP0yfwe3g8lpMltuI6N3YYjjWCl0N0',
   );
   myHeaders.append('Content-Type', 'application/json');
 
