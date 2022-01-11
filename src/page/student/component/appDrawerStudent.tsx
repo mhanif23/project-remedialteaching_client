@@ -43,18 +43,18 @@ export default function SwipeableTemporaryDrawerStudent() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['Diagnostik', 'Materi', 'Ujian'].map((text, index) => (
+        {['Diagnostik', 'Materi', 'Latihan', 'Ujian'].map((text, index) => (
           <ListItem
             button
             key={text}
             onClick={() => {
               const path =
                 text === 'Diagnostik'
-                  ? '/Diagnostik'
+                  ? '/diagnostik_student'
                   : text === 'Materi'
-                  ? '/Materi'
-                  : text === 'Subject'
-                  ? '/Ujian'
+                  ? '/materiStudentPage'
+                  : text === 'Latihan'
+                  ? '/latihanStudentPage'
                   : '/Ujian';
               history.push(path);
             }}

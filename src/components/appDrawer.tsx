@@ -69,8 +69,21 @@ export default function SwipeableTemporaryDrawer() {
       </List>
       <Divider />
       <List>
-        {['Questions', 'Questions Types'].map((text, index) => (
-          <ListItem button key={text}>
+        {['Diagnostik', 'Latihan', 'Ujian'].map((text, index) => (
+          <ListItem
+            button
+            key={text}
+            onClick={() => {
+              console.log(text);
+              const path =
+                text === 'Diagnostik'
+                  ? '/diagnostik'
+                  : text === 'Latihan'
+                  ? '/studentss'
+                  : '/questions';
+              history.push(path);
+            }}
+          >
             <ListItemIcon>
               <InsertDriveFileIcon />
             </ListItemIcon>

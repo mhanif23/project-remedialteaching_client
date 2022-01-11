@@ -52,7 +52,7 @@ const DiagnostikPageAnswer = () => {
   const [openPopUp, setopenPopUp] = React.useState(false);
 
   const addNewStudentAnswer = (id_diagnostik: number, answer: string) => {
-    const id_student = 13;
+    const id_student = 14;
     if (studentAnswer.current.length !== 0) {
       const data = studentAnswer.current.filter((e) => {
         return e.id_question_diagnostik !== id_diagnostik;
@@ -126,7 +126,12 @@ const DiagnostikPageAnswer = () => {
           <></>
         ) : (
           <>
-            <Box>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
               <FormControl>
                 {DiagnostikQuestion
                   ? DiagnostikQuestion.map((e, index) => {

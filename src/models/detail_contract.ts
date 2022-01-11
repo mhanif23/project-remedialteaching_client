@@ -1,20 +1,4 @@
-export interface iCreate_diagnostik_student_answer {
-  id_question_diagnostik: number;
-  id_student: number;
-  answer: string;
-}
-
-export interface iStudentAnswerDiagnostik {
-  id: number;
-  id_student: number;
-  id_question_diagnostik: number;
-  status: string;
-  answer: string;
-}
-
-export const createDiagnostikStudentAnswer = async (
-  newData: iCreate_diagnostik_student_answer[],
-): Promise<boolean> => {
+export const updateStatus = (id: number, status: number) => {
   var myHeaders = new Headers();
   myHeaders.append(
     'Authorization',
@@ -23,19 +7,17 @@ export const createDiagnostikStudentAnswer = async (
   myHeaders.append('Content-Type', 'application/json');
 
   var raw = JSON.stringify({
-    data: newData,
+    id: id,
+    status: status,
   });
 
   var requestOptions = {
-    method: 'POST',
+    method: 'PUT',
     headers: myHeaders,
     body: raw,
   };
 
-  const data = await fetch(
-    'http://localhost:8080/diagnostikAnswersStudent',
-    requestOptions,
-  )
+  const data = fetch('http://localhost:8080/updateStatus', requestOptions)
     .then((response) => response.json())
     .then((result) => {
       return result;

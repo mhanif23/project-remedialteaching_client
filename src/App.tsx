@@ -14,6 +14,8 @@ import Subjects from './page/admin/subject';
 import Diagnostik from './page/admin/diagnostik';
 import QuestionsAnswer from './page/admin/questionsAnswer';
 import DiagnostikStudentPage from './page/student/diagnostik_student_answer';
+import MateriStudentPage from './page/student/materiStudent';
+import LatihanStudentPage from './page/student/latihanStudentPage';
 
 function App() {
   const ProtectedRouteData = [
@@ -92,6 +94,12 @@ function App() {
         </Route>
         <Route exact path='/diagnostik_student'>
           <DiagnostikStudentPage />
+        </Route>
+        <Route exact path='/materiStudentPage'>
+          <MateriStudentPage />
+        </Route>
+        <Route exact path='/latihanStudentPage'>
+          <LatihanStudentPage />
         </Route>
         {ProtectedRouteData.map((data) => {
           return (
