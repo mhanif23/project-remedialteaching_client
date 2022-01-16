@@ -5,12 +5,10 @@ export interface iCreateQuestionAnswer {
 }
 export const createQuestionAnswer = async (
   newData: iCreateQuestionAnswer,
+  token: string,
 ): Promise<boolean> => {
   var myHeaders = new Headers();
-  myHeaders.append(
-    'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTg0MDQ5NiwiZXhwIjoxNjQxODU4NDk2fQ.Ta1rIdXBhTxohODtNHVu7tNxF-hyb48reFBYe1OHf_o',
-  );
+  myHeaders.append('Authorization', `Bearer ${token}`);
   myHeaders.append('Content-Type', 'application/json');
   var raw = JSON.stringify({
     id_question: Number(newData.id_question),
@@ -25,7 +23,7 @@ export const createQuestionAnswer = async (
   };
 
   const data = await fetch(
-    'http://localhost:8080/question_answers',
+    `${process.env.REACT_APP_BACKEND_URL}/question_answers`,
     requestOptions,
   )
     .then((response) => response.json())
@@ -50,12 +48,10 @@ export interface QuestionsAnswerData {
 }
 export const getQuestionAnswer = async (
   id_question: number,
+  token: string,
 ): Promise<QuestionsAnswerData[]> => {
   var myHeaders = new Headers();
-  myHeaders.append(
-    'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTg0MDQ5NiwiZXhwIjoxNjQxODU4NDk2fQ.Ta1rIdXBhTxohODtNHVu7tNxF-hyb48reFBYe1OHf_o',
-  );
+  myHeaders.append('Authorization', `Bearer ${token}`);
 
   var requestOptions = {
     method: 'GET',
@@ -63,7 +59,7 @@ export const getQuestionAnswer = async (
   };
 
   const data = await fetch(
-    `http://localhost:8080/question_answers_by_id_question?id_question=${id_question}`,
+    `${process.env.REACT_APP_BACKEND_URL}/question_answers_by_id_question?id_question=${id_question}`,
     requestOptions,
   )
     .then((response) => response.json())
@@ -77,12 +73,12 @@ export const getQuestionAnswer = async (
   return await data.result;
 };
 
-export const deleteQuestionAnswerId = async (id: number): Promise<boolean> => {
+export const deleteQuestionAnswerId = async (
+  id: number,
+  token: string,
+): Promise<boolean> => {
   var myHeaders = new Headers();
-  myHeaders.append(
-    'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTg0MDQ5NiwiZXhwIjoxNjQxODU4NDk2fQ.Ta1rIdXBhTxohODtNHVu7tNxF-hyb48reFBYe1OHf_o',
-  );
+  myHeaders.append('Authorization', `Bearer ${token}`);
   myHeaders.append('Content-Type', 'application/json');
 
   var raw = JSON.stringify({
@@ -96,7 +92,7 @@ export const deleteQuestionAnswerId = async (id: number): Promise<boolean> => {
   };
 
   const data = await fetch(
-    'http://localhost:8080/question_answers',
+    `${process.env.REACT_APP_BACKEND_URL}/question_answers`,
     requestOptions,
   )
     .then((response) => response.json())
@@ -114,12 +110,10 @@ export const updateQuestionAnswer = async (
   id_question: number,
   answer: string,
   status: boolean,
+  token: string,
 ): Promise<boolean> => {
   var myHeaders = new Headers();
-  myHeaders.append(
-    'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTg0MDQ5NiwiZXhwIjoxNjQxODU4NDk2fQ.Ta1rIdXBhTxohODtNHVu7tNxF-hyb48reFBYe1OHf_o',
-  );
+  myHeaders.append('Authorization', `Bearer ${token}`);
   myHeaders.append('Content-Type', 'application/json');
 
   var raw = JSON.stringify({
@@ -136,7 +130,7 @@ export const updateQuestionAnswer = async (
   };
 
   const data = await fetch(
-    'http://localhost:8080/question_answers',
+    `${process.env.REACT_APP_BACKEND_URL}/question_answers`,
     requestOptions,
   )
     .then((response) => response.json())

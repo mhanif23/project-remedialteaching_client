@@ -6,12 +6,10 @@ export interface iCreateStudent {
 }
 export const createStudent = async (
   newData: iCreateStudent,
+  token: string,
 ): Promise<boolean> => {
   var myHeaders = new Headers();
-  myHeaders.append(
-    'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTg0MDQ5NiwiZXhwIjoxNjQxODU4NDk2fQ.Ta1rIdXBhTxohODtNHVu7tNxF-hyb48reFBYe1OHf_o',
-  );
+  myHeaders.append('Authorization', `Bearer ${token}`);
   myHeaders.append('Content-Type', 'application/json');
 
   var raw = JSON.stringify({
@@ -27,7 +25,10 @@ export const createStudent = async (
     body: raw,
   };
 
-  const data = fetch('http://localhost:8080/Student', requestOptions)
+  const data = fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/Student`,
+    requestOptions,
+  )
     .then((response) => response.json())
     .then((result) => {
       return result;
@@ -50,12 +51,9 @@ export interface students {
   class: string;
   status: string;
 }
-export const getStudents = async (): Promise<students[]> => {
+export const getStudents = async (token: string): Promise<students[]> => {
   var myHeaders = new Headers();
-  myHeaders.append(
-    'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTg0MDQ5NiwiZXhwIjoxNjQxODU4NDk2fQ.Ta1rIdXBhTxohODtNHVu7tNxF-hyb48reFBYe1OHf_o',
-  );
+  myHeaders.append('Authorization', `Bearer ${token}`);
 
   var requestOptions = {
     method: 'GET',
@@ -63,7 +61,7 @@ export const getStudents = async (): Promise<students[]> => {
   };
 
   const data = await fetch(
-    'http://localhost:8080/studentsActive',
+    `${process.env.REACT_APP_BACKEND_URL}/studentsActive`,
     requestOptions,
   )
     .then((response) => response.json())
@@ -76,12 +74,12 @@ export const getStudents = async (): Promise<students[]> => {
   return await data.student;
 };
 
-export const deleteStudent = async (id: number): Promise<boolean> => {
+export const deleteStudent = async (
+  id: number,
+  token: string,
+): Promise<boolean> => {
   var myHeaders = new Headers();
-  myHeaders.append(
-    'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTg0MDQ5NiwiZXhwIjoxNjQxODU4NDk2fQ.Ta1rIdXBhTxohODtNHVu7tNxF-hyb48reFBYe1OHf_o',
-  );
+  myHeaders.append('Authorization', `Bearer ${token}`);
   myHeaders.append('Content-Type', 'application/json');
 
   var raw = JSON.stringify({
@@ -94,7 +92,10 @@ export const deleteStudent = async (id: number): Promise<boolean> => {
     body: raw,
   };
 
-  const data = await fetch('http://localhost:8080/student', requestOptions)
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/student`,
+    requestOptions,
+  )
     .then((response) => response.json())
     .then((result) => {
       return result;
@@ -113,7 +114,7 @@ export const getAnswerDiagnostikStudent = async (
   };
 
   const data = await fetch(
-    `http://localhost:8080/diagnostikAnswers_by_istudent?id_student=${id}`,
+    `${process.env.REACT_APP_BACKEND_URL}/diagnostikAnswers_by_istudent?id_student=${id}`,
     requestOptions,
   )
     .then((response) => response.json())
@@ -124,4 +125,109 @@ export const getAnswerDiagnostikStudent = async (
       return error;
     });
   return data.result.length;
+};
+
+export type iBoard = {
+  id: number;
+  studentId: number;
+  nilai: number;
+  created_At: Date;
+};
+export const getTryOutBoard = async (
+  id: number,
+  token: string,
+): Promise<iBoard[]> => {
+  var myHeaders = new Headers();
+  myHeaders.append('Authorization', `Bearer ${token}`);
+  myHeaders.append('Content-Type', 'application/json');
+
+  var raw = JSON.stringify({
+    idStudent: id,
+  });
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+  };
+
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/studentsTryOutBoard`,
+    requestOptions,
+  )
+    .then((response) => response.json())
+    .then((result) => {
+      return result;
+    })
+    .catch((error) => {
+      return error;
+    });
+  return data;
+};
+
+export const getExamBoard = async (
+  id: number,
+  token: string,
+): Promise<iBoard[]> => {
+  var myHeaders = new Headers();
+  myHeaders.append('Authorization', `Bearer ${token}`);
+  myHeaders.append('Content-Type', 'application/json');
+
+  var raw = JSON.stringify({
+    idStudent: id,
+  });
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+  };
+
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/studentsExamBoard`,
+    requestOptions,
+  )
+    .then((response) => response.json())
+    .then((result) => {
+      return result;
+    })
+    .catch((error) => {
+      return error;
+    });
+  return data;
+};
+
+export type iStudents = {
+  student_name: string;
+  class: string;
+  username: string;
+};
+export const getStudentInfoApi = async (
+  id: number,
+  token: string,
+): Promise<iStudents> => {
+  var myHeaders = new Headers();
+  myHeaders.append('Authorization', `Bearer ${token}`);
+  myHeaders.append('Content-Type', 'application/json');
+  var raw = JSON.stringify({
+    idStudent: id,
+  });
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+  };
+
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/studentsInfo`,
+    requestOptions,
+  )
+    .then((response) => response.json())
+    .then((result) => {
+      return result;
+    })
+    .catch((error) => {
+      return error;
+    });
+  return data;
 };

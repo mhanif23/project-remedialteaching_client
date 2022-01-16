@@ -1,9 +1,14 @@
 const LOCAL_AUTH_KEY = 'REMEDIAL_AUTH';
 
-export function saveToken(token: string, username: string, role: string) {
+export function saveToken(
+  token: string,
+  username: string,
+  role: string,
+  id: number,
+) {
   localStorage.setItem(
     LOCAL_AUTH_KEY,
-    JSON.stringify({ token, username, role }),
+    JSON.stringify({ token, username, role, id }),
   );
 }
 
@@ -11,6 +16,7 @@ type iauth = {
   username: string;
   token: string;
   role: string;
+  id: number;
 };
 
 export function getCredential(): iauth {
@@ -20,6 +26,7 @@ export function getCredential(): iauth {
       username: '',
       token: '',
       role: '',
+      id: -1,
     };
   let auth = JSON.parse(authJSON);
   return auth;

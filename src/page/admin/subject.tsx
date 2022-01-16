@@ -20,6 +20,7 @@ import {
   SubjectsData,
   updateSubject,
 } from '../../models/subjects';
+import useStore from '../../store/globalState';
 
 const Subjects = () => {
   const [open, setOpen] = React.useState(false);
@@ -33,9 +34,10 @@ const Subjects = () => {
   const [dataNewSubject, setNewSubject] = React.useState({
     name: '',
   });
+  const token = useStore((state) => state.token);
 
   const deleteSubject = async () => {
-    const data = deleteSubjectId(idDelete);
+    const data = deleteSubjectId(idDelete, token);
     if ((await data) === true) {
       setIdDelete(-1);
       handleCloseOpenDelete();
@@ -49,7 +51,7 @@ const Subjects = () => {
   };
 
   const update = async () => {
-    const data = updateSubject(idEdit, dataNewSubject.name);
+    const data = updateSubject(idEdit, dataNewSubject.name, token);
     if ((await data) === true) {
       handleCloseEditDialog();
       subject();
@@ -108,11 +110,12 @@ const Subjects = () => {
 
   const rows: { id: number; data1: string }[] = [];
   async function subject() {
-    const data = await getSubject();
+    const data = await getSubject(token);
     setdataSubject(data);
   }
   useEffect(() => {
     subject();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, openEdit, openDelete]);
 
   useEffect(() => {
@@ -129,7 +132,7 @@ const Subjects = () => {
   });
 
   const create = async () => {
-    const data = createSubject(dataNewSubject);
+    const data = createSubject(dataNewSubject, token);
     if ((await data) === false) {
     } else {
       setNewSubject({

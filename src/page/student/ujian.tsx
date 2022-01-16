@@ -1,46 +1,46 @@
 import { Container, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import {
-  getIndicatorStudentForTryOut,
+  getIndicatorStudentForExam,
   IndicatorsData,
 } from '../../models/indicator';
 import ButtonAppBarStudent from './component/appBarStudent';
-import TryOutPageAnswer from './tryOutPageAnswer';
+import ExamPageAnswer from './examPageAnswer';
 import useStore from '../../store/globalState';
 
-const LatihanStudentPage = () => {
+const Ujian = () => {
   const [matter, setMatter] = React.useState<
     (IndicatorsData & { isDone: number; idDetail: number })[] | null
   >(null);
-  const idStudent = useStore((state) => state.id);
+  const id_student = useStore((state) => state.id);
 
   const GetDataMatter = async (id_student: number) => {
-    const data = await getIndicatorStudentForTryOut(id_student);
+    const data = await getIndicatorStudentForExam(id_student);
     if (data) {
       setMatter(data);
     }
   };
 
   useEffect(() => {
-    GetDataMatter(idStudent);
-  }, [idStudent]);
+    GetDataMatter(id_student);
+  }, []);
 
   return (
     <>
       {matter && matter.length > 0 ? (
         <>
-          <TryOutPageAnswer />;
+          <ExamPageAnswer />;
         </>
       ) : (
         <>
           <ButtonAppBarStudent />
           <Container>
             <Typography align='center' variant='h2' sx={{ mt: 5 }}>
-              Kamu tidak dapat mengikuti latihan!
+              Kamu tidak dapat mengikuti Ujian!
             </Typography>
             <Typography align='center' variant='h5' sx={{ mt: 5 }}>
-              "Hal tersebut dapat disebabkan materi yang belum selesai atau anda
-              sudah menyelesaikan keseluruhan materi"
+              "Hal tersebut dapat disebabkan latihan yang belum selesai atau
+              anda sudah menyelesaikan keseluruhan program"
             </Typography>
           </Container>
         </>
@@ -49,4 +49,4 @@ const LatihanStudentPage = () => {
   );
 };
 
-export default LatihanStudentPage;
+export default Ujian;

@@ -27,6 +27,7 @@ import {
 import { IndicatorsData, getIndicatorBySubject } from '../../models/indicator';
 
 import { getSubject, SubjectsData } from '../../models/subjects';
+import useStore from '../../store/globalState';
 
 const Diagnostik = () => {
   const [open, setOpen] = React.useState(false);
@@ -46,6 +47,7 @@ const Diagnostik = () => {
     idIndicator: '',
     idSubject: '',
   });
+  const token = useStore((state) => state.token);
 
   const [dataSubject, setdataSubject] = React.useState<
     SubjectsData[] | undefined
@@ -70,11 +72,12 @@ const Diagnostik = () => {
   };
 
   async function subject() {
-    const data = await getSubject();
+    const data = await getSubject(token);
     setdataSubject(data);
   }
   useEffect(() => {
     subject();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   async function Indicator() {
     const data = await getIndicatorBySubject(Number(soalDiagnostik.idSubject));
@@ -254,7 +257,7 @@ const Diagnostik = () => {
     );
   });
   const create = async () => {
-    const data = createDiagnostikQuestion(soalDiagnostik);
+    const data = createDiagnostikQuestion(soalDiagnostik, token);
     if ((await data) === true) {
       handleClose();
       soalDiangostik();
@@ -277,7 +280,7 @@ const Diagnostik = () => {
   };
 
   const deleteDiagnostik = async () => {
-    const data = deleteDiagnostikQuestion(idDelete);
+    const data = deleteDiagnostikQuestion(idDelete, token);
     if ((await data) === true) {
       handleCloseOpenDelete();
       soalDiangostik();
@@ -300,7 +303,7 @@ const Diagnostik = () => {
   };
 
   const update = async () => {
-    const data = updateDiagnostikQuestion(idEdit, soalDiagnostik);
+    const data = updateDiagnostikQuestion(idEdit, soalDiagnostik, token);
     if ((await data) === true) {
       handleCloseEditDialog();
       soalDiangostik();

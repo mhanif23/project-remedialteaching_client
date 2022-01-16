@@ -16,27 +16,26 @@ import {
 import React, { useEffect } from 'react';
 import ButtonAppBar from '../../components/appBar';
 import DenseTable from '../../components/tables';
+import {
+  createExamQuestion,
+  deleteExamQuestion,
+  getSoalExam,
+  iExam_question,
+  updateExamQuestion,
+} from '../../models/Exam';
 
 import { IndicatorsData, getIndicatorBySubject } from '../../models/indicator';
-
-import {
-  itryOut_question,
-  getSoalTryOut,
-  createTryoutQuestion,
-  deleteTryoutQuestion,
-  updateTryoutQuestion,
-} from '../../models/tryOut';
 
 import { getSubject, SubjectsData } from '../../models/subjects';
 import useStore from '../../store/globalState';
 
-const TryOut = () => {
+const Exam = () => {
   const [open, setOpen] = React.useState(false);
   const [idEdit, setIdEdit] = React.useState(-1);
   const [idDelete, setIdDelete] = React.useState(-1);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
-  const [soalTryOut, setSoalTryOut] = React.useState({
+  const [soalExam, setSoalExam] = React.useState({
     question: '',
     option1: '',
     option2: '',
@@ -47,7 +46,6 @@ const TryOut = () => {
     media: '',
     idIndicator: '',
     idSubject: '',
-    noTopic: '',
   });
   const token = useStore((state) => state.token);
 
@@ -60,15 +58,15 @@ const TryOut = () => {
   >(undefined);
 
   const ChangeValueNewAdminSelect = (event: SelectChangeEvent) => {
-    setSoalTryOut({
-      ...soalTryOut,
+    setSoalExam({
+      ...soalExam,
       idSubject: String(event.target.value),
     });
   };
 
   const ChangeValueIndicator = (event: SelectChangeEvent) => {
-    setSoalTryOut({
-      ...soalTryOut,
+    setSoalExam({
+      ...soalExam,
       idIndicator: String(event.target.value),
     });
   };
@@ -82,23 +80,23 @@ const TryOut = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   async function Indicator() {
-    const data = await getIndicatorBySubject(Number(soalTryOut.idSubject));
+    const data = await getIndicatorBySubject(Number(soalExam.idSubject));
     setdataIndicator(data);
   }
   useEffect(() => {
     Indicator();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [soalTryOut.idSubject]);
+  }, [soalExam.idSubject]);
 
-  const [soalTryOutall, setSoalTryOutAll] = React.useState<
-    itryOut_question[] | undefined
+  const [soalExamall, setSoalExamAll] = React.useState<
+    iExam_question[] | undefined
   >(undefined);
 
   // eslint-disable-next-line no-restricted-globals
   const ChangeValueNewAdmin = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    setSoalTryOut({ ...soalTryOut, [e.target.id]: e.target.value });
+    setSoalExam({ ...soalExam, [e.target.id]: e.target.value });
   };
 
   const handleClickOpen = () => {
@@ -135,10 +133,8 @@ const TryOut = () => {
     data6: string,
     data7: string,
     data8: string,
-    data9: string,
-    data10: string,
-    data11: string,
-    data12: string,
+    data9: number,
+    data10: number,
     name: string,
   ) {
     return {
@@ -153,8 +149,6 @@ const TryOut = () => {
       data8,
       data9,
       data10,
-      data11,
-      data12,
       name,
     };
   }
@@ -170,8 +164,6 @@ const TryOut = () => {
     name8: string,
     name9: string,
     name10: string,
-    name11: string,
-    name12: string,
   ) {
     return {
       name1,
@@ -184,8 +176,6 @@ const TryOut = () => {
       name8,
       name9,
       name10,
-      name11,
-      name12,
     };
   }
 
@@ -200,9 +190,7 @@ const TryOut = () => {
       'opsi5',
       'media',
       'jawaban',
-      'id_indicator',
       'id_subjek',
-      'no Topic',
     ),
   ];
 
@@ -216,12 +204,11 @@ const TryOut = () => {
     data6: string;
     data7: string;
     data8: string;
-    data9: string;
     name: string;
   }[] = [];
   async function soalDiangostik() {
-    const data = await getSoalTryOut();
-    setSoalTryOutAll(data);
+    const data = await getSoalExam();
+    setSoalExamAll(data);
   }
 
   useEffect(() => {
@@ -229,9 +216,9 @@ const TryOut = () => {
   }, [open, openEdit, openDelete]);
 
   useEffect(() => {
-    const soal = soalTryOutall?.find((e) => e.id === idEdit);
+    const soal = soalExamall?.find((e) => e.id === idEdit);
     if (soal) {
-      setSoalTryOut({
+      setSoalExam({
         question: soal.question,
         option1: soal.option1,
         option2: soal.option2,
@@ -242,13 +229,12 @@ const TryOut = () => {
         trueAnswer: soal.trueAnswer,
         idIndicator: String(soal.idIndicator),
         idSubject: String(soal.idSubject),
-        noTopic: String(soal.noTopic),
       });
     }
-  }, [idEdit, soalTryOutall]);
+  }, [idEdit, soalExamall]);
 
   // eslint-disable-next-line array-callback-return
-  soalTryOutall?.map((e, index) => {
+  soalExamall?.map((e, index) => {
     rows.push(
       createData(
         e.id,
@@ -260,22 +246,21 @@ const TryOut = () => {
         e.option5,
         e.media ? e.media : ' ',
         e.trueAnswer,
-        String(e.id_Indicator),
-        String(e.idSubject),
-        String(e.noTopic),
-        '',
+        e.idIndicator,
+        e.idSubject,
+
         String(index + 1),
       ),
     );
   });
   const create = async () => {
-    const data = await createTryoutQuestion(soalTryOut, token);
+    const data = await createExamQuestion(soalExam, token);
     console.log(data);
     if ((await data) === true) {
       handleClose();
       soalDiangostik();
     } else {
-      setSoalTryOut({
+      setSoalExam({
         question: '',
         option1: '',
         option2: '',
@@ -286,20 +271,19 @@ const TryOut = () => {
         media: '',
         idIndicator: '',
         idSubject: '',
-        noTopic: '',
       });
       setIdEdit(-1);
       handleClose();
     }
   };
 
-  const deleteTryOut = async () => {
-    const data = deleteTryoutQuestion(idDelete, token);
+  const deleteExam = async () => {
+    const data = deleteExamQuestion(idDelete, token);
     if ((await data) === true) {
       handleCloseOpenDelete();
       soalDiangostik();
     } else {
-      setSoalTryOut({
+      setSoalExam({
         question: '',
         option1: '',
         option2: '',
@@ -310,7 +294,6 @@ const TryOut = () => {
         media: '',
         idIndicator: '',
         idSubject: '',
-        noTopic: '',
       });
       setIdDelete(-1);
       handleCloseOpenDelete();
@@ -318,12 +301,12 @@ const TryOut = () => {
   };
 
   const update = async () => {
-    const data = updateTryoutQuestion(idEdit, soalTryOut, token);
+    const data = updateExamQuestion(idEdit, soalExam, token);
     if ((await data) === true) {
       handleCloseEditDialog();
       soalDiangostik();
     } else {
-      setSoalTryOut({
+      setSoalExam({
         question: '',
         option1: '',
         option2: '',
@@ -334,7 +317,6 @@ const TryOut = () => {
         media: '',
         idIndicator: '',
         idSubject: '',
-        noTopic: '',
       });
       handleCloseEditDialog();
     }
@@ -346,7 +328,7 @@ const TryOut = () => {
       <ButtonAppBar />
       <Container>
         <Typography align='center' variant='h2' sx={{ mt: 5 }}>
-          Daftar Soal TryOut
+          Daftar Soal Exam
         </Typography>
         <Box>
           <DenseTable
@@ -372,7 +354,7 @@ const TryOut = () => {
       </Container>
 
       <Dialog open={open} onClose={handleClose} fullWidth>
-        <DialogTitle>Form TryOut Soal</DialogTitle>
+        <DialogTitle>Form Exam Soal</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -382,7 +364,7 @@ const TryOut = () => {
             type='string'
             fullWidth
             variant='standard'
-            value={soalTryOut.question}
+            value={soalExam.question}
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
             ) => {
@@ -394,7 +376,7 @@ const TryOut = () => {
           <DialogContentText>subject</DialogContentText>
           <Select
             fullWidth
-            value={soalTryOut.idSubject}
+            value={soalExam.idSubject}
             label='Subject'
             onChange={(e: SelectChangeEvent) => {
               ChangeValueNewAdminSelect(e);
@@ -408,9 +390,9 @@ const TryOut = () => {
         <DialogContent>
           <DialogContentText>Indicator</DialogContentText>
           <Select
-            disabled={soalTryOut.idSubject === '' ? true : false}
+            disabled={soalExam.idSubject === '' ? true : false}
             fullWidth
-            value={soalTryOut.idIndicator}
+            value={soalExam.idIndicator}
             label='indicator'
             onChange={(e: SelectChangeEvent) => {
               ChangeValueIndicator(e);
@@ -431,7 +413,7 @@ const TryOut = () => {
             type='string'
             fullWidth
             variant='standard'
-            value={soalTryOut.option1}
+            value={soalExam.option1}
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
             ) => {
@@ -448,7 +430,7 @@ const TryOut = () => {
             type='string'
             fullWidth
             variant='standard'
-            value={soalTryOut.option2}
+            value={soalExam.option2}
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
             ) => {
@@ -465,7 +447,7 @@ const TryOut = () => {
             type='string'
             fullWidth
             variant='standard'
-            value={soalTryOut.option3}
+            value={soalExam.option3}
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
             ) => {
@@ -482,7 +464,7 @@ const TryOut = () => {
             type='string'
             fullWidth
             variant='standard'
-            value={soalTryOut.option4}
+            value={soalExam.option4}
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
             ) => {
@@ -499,7 +481,7 @@ const TryOut = () => {
             type='string'
             fullWidth
             variant='standard'
-            value={soalTryOut.option5}
+            value={soalExam.option5}
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
             ) => {
@@ -516,7 +498,7 @@ const TryOut = () => {
             type='string'
             fullWidth
             variant='standard'
-            value={soalTryOut.media}
+            value={soalExam.media}
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
             ) => {
@@ -533,24 +515,7 @@ const TryOut = () => {
             type='string'
             fullWidth
             variant='standard'
-            value={soalTryOut.trueAnswer}
-            onChange={(
-              e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-            ) => {
-              ChangeValueNewAdmin(e);
-            }}
-          />
-        </DialogContent>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin='normal'
-            id='noTopic'
-            label='noTopic'
-            type='string'
-            fullWidth
-            variant='standard'
-            value={soalTryOut.noTopic}
+            value={soalExam.trueAnswer}
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
             ) => {
@@ -565,7 +530,7 @@ const TryOut = () => {
       </Dialog>
 
       <Dialog open={openEdit} onClose={handleCloseEditDialog} fullWidth>
-        <DialogTitle>Form Update TryOut Soal</DialogTitle>
+        <DialogTitle>Form Exam Soal</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -575,7 +540,7 @@ const TryOut = () => {
             type='string'
             fullWidth
             variant='standard'
-            value={soalTryOut.question}
+            value={soalExam.question}
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
             ) => {
@@ -587,7 +552,7 @@ const TryOut = () => {
           <DialogContentText>subject</DialogContentText>
           <Select
             fullWidth
-            value={soalTryOut.idSubject}
+            value={soalExam.idSubject}
             label='Subject'
             onChange={(e: SelectChangeEvent) => {
               ChangeValueNewAdminSelect(e);
@@ -601,9 +566,9 @@ const TryOut = () => {
         <DialogContent>
           <DialogContentText>indicator</DialogContentText>
           <Select
-            disabled={soalTryOut.idSubject === '' ? true : false}
+            disabled={soalExam.idSubject === '' ? true : false}
             fullWidth
-            value={soalTryOut.idIndicator}
+            value={soalExam.idIndicator}
             label='indicator'
             onChange={(e: SelectChangeEvent) => {
               ChangeValueIndicator(e);
@@ -623,7 +588,7 @@ const TryOut = () => {
             type='string'
             fullWidth
             variant='standard'
-            value={soalTryOut.option1}
+            value={soalExam.option1}
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
             ) => {
@@ -640,7 +605,7 @@ const TryOut = () => {
             type='string'
             fullWidth
             variant='standard'
-            value={soalTryOut.option2}
+            value={soalExam.option2}
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
             ) => {
@@ -657,7 +622,7 @@ const TryOut = () => {
             type='string'
             fullWidth
             variant='standard'
-            value={soalTryOut.option3}
+            value={soalExam.option3}
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
             ) => {
@@ -674,7 +639,7 @@ const TryOut = () => {
             type='string'
             fullWidth
             variant='standard'
-            value={soalTryOut.option4}
+            value={soalExam.option4}
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
             ) => {
@@ -691,7 +656,7 @@ const TryOut = () => {
             type='string'
             fullWidth
             variant='standard'
-            value={soalTryOut.option5}
+            value={soalExam.option5}
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
             ) => {
@@ -708,7 +673,7 @@ const TryOut = () => {
             type='string'
             fullWidth
             variant='standard'
-            value={soalTryOut.media}
+            value={soalExam.media}
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
             ) => {
@@ -726,24 +691,7 @@ const TryOut = () => {
             type='string'
             fullWidth
             variant='standard'
-            value={soalTryOut.trueAnswer}
-            onChange={(
-              e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-            ) => {
-              ChangeValueNewAdmin(e);
-            }}
-          />
-        </DialogContent>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin='normal'
-            id='noTopic'
-            label='noTopic'
-            type='string'
-            fullWidth
-            variant='standard'
-            value={soalTryOut.noTopic}
+            value={soalExam.trueAnswer}
             onChange={(
               e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
             ) => {
@@ -771,7 +719,7 @@ const TryOut = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseOpenDelete}>Cancel</Button>
-          <Button onClick={deleteTryOut} autoFocus>
+          <Button onClick={deleteExam} autoFocus>
             Accept
           </Button>
         </DialogActions>
@@ -780,4 +728,4 @@ const TryOut = () => {
   );
 };
 
-export default TryOut;
+export default Exam;

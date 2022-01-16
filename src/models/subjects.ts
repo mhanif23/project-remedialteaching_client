@@ -3,12 +3,10 @@ export interface iCreateSubject {
 }
 export const createSubject = async (
   newData: iCreateSubject,
+  token: string,
 ): Promise<boolean> => {
   var myHeaders = new Headers();
-  myHeaders.append(
-    'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTg0MDQ5NiwiZXhwIjoxNjQxODU4NDk2fQ.Ta1rIdXBhTxohODtNHVu7tNxF-hyb48reFBYe1OHf_o',
-  );
+  myHeaders.append('Authorization', `Bearer ${token}`);
   myHeaders.append('Content-Type', 'application/json');
 
   var raw = JSON.stringify({
@@ -21,7 +19,10 @@ export const createSubject = async (
     body: raw,
   };
 
-  const data = await fetch('http://localhost:8080/Subject', requestOptions)
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/Subject`,
+    requestOptions,
+  )
     .then((response) => response.json())
     .then((result) => {
       return result;
@@ -40,19 +41,19 @@ export interface SubjectsData {
   id: number;
   name: string;
 }
-export const getSubject = async (): Promise<SubjectsData[]> => {
+export const getSubject = async (token: string): Promise<SubjectsData[]> => {
   var myHeaders = new Headers();
-  myHeaders.append(
-    'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTg0MDQ5NiwiZXhwIjoxNjQxODU4NDk2fQ.Ta1rIdXBhTxohODtNHVu7tNxF-hyb48reFBYe1OHf_o',
-  );
+  myHeaders.append('Authorization', `Bearer ${token}`);
 
   var requestOptions = {
     method: 'GET',
     headers: myHeaders,
   };
 
-  const data = await fetch('http://localhost:8080/Subjects', requestOptions)
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/Subjects`,
+    requestOptions,
+  )
     .then((response) => response.json())
     .then((result) => {
       return result;
@@ -63,12 +64,12 @@ export const getSubject = async (): Promise<SubjectsData[]> => {
   return await data.result;
 };
 
-export const deleteSubjectId = async (id: number): Promise<boolean> => {
+export const deleteSubjectId = async (
+  id: number,
+  token: string,
+): Promise<boolean> => {
   var myHeaders = new Headers();
-  myHeaders.append(
-    'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTg0MDQ5NiwiZXhwIjoxNjQxODU4NDk2fQ.Ta1rIdXBhTxohODtNHVu7tNxF-hyb48reFBYe1OHf_o',
-  );
+  myHeaders.append('Authorization', `Bearer ${token}`);
   myHeaders.append('Content-Type', 'application/json');
 
   var raw = JSON.stringify({
@@ -81,7 +82,10 @@ export const deleteSubjectId = async (id: number): Promise<boolean> => {
     body: raw,
   };
 
-  const data = await fetch('http://localhost:8080/Subject', requestOptions)
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/Subject`,
+    requestOptions,
+  )
     .then((response) => response.json())
     .then((result) => {
       return result;
@@ -95,12 +99,10 @@ export const deleteSubjectId = async (id: number): Promise<boolean> => {
 export const updateSubject = async (
   id: number,
   name: string,
+  token: string,
 ): Promise<boolean> => {
   var myHeaders = new Headers();
-  myHeaders.append(
-    'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTg0MDQ5NiwiZXhwIjoxNjQxODU4NDk2fQ.Ta1rIdXBhTxohODtNHVu7tNxF-hyb48reFBYe1OHf_o',
-  );
+  myHeaders.append('Authorization', `Bearer ${token}`);
   myHeaders.append('Content-Type', 'application/json');
 
   var raw = JSON.stringify({
@@ -114,7 +116,10 @@ export const updateSubject = async (
     body: raw,
   };
 
-  const data = await fetch('http://localhost:8080/SubjectsId', requestOptions)
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/SubjectsId`,
+    requestOptions,
+  )
     .then((response) => response.json())
     .then((result) => {
       return result;

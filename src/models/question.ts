@@ -5,13 +5,11 @@ export interface iCreateQuestion {
 }
 export const createQuestion = async (
   newData: iCreateQuestion,
+  token: string,
 ): Promise<boolean> => {
   var myHeaders = new Headers();
 
-  myHeaders.append(
-    'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTg0MDQ5NiwiZXhwIjoxNjQxODU4NDk2fQ.Ta1rIdXBhTxohODtNHVu7tNxF-hyb48reFBYe1OHf_o',
-  );
+  myHeaders.append('Authorization', `Bearer ${token}`);
 
   myHeaders.append('Content-Type', 'application/json');
 
@@ -27,7 +25,10 @@ export const createQuestion = async (
     body: raw,
   };
 
-  const data = await fetch('http://localhost:8080/Question', requestOptions)
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/Question`,
+    requestOptions,
+  )
     .then((response) => response.json())
     .then((result) => {
       return result;
@@ -53,7 +54,10 @@ export const getQuestion = async (): Promise<QuestionsData[]> => {
     method: 'GET',
   };
 
-  const data = await fetch('http://localhost:8080/Questions', requestOptions)
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/Questions`,
+    requestOptions,
+  )
     .then((response) => response.json())
     .then((result) => {
       return result;
@@ -64,12 +68,12 @@ export const getQuestion = async (): Promise<QuestionsData[]> => {
   return await data.result;
 };
 
-export const deleteQuestionId = async (id: number): Promise<boolean> => {
+export const deleteQuestionId = async (
+  id: number,
+  token: string,
+): Promise<boolean> => {
   var myHeaders = new Headers();
-  myHeaders.append(
-    'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTg0MDQ5NiwiZXhwIjoxNjQxODU4NDk2fQ.Ta1rIdXBhTxohODtNHVu7tNxF-hyb48reFBYe1OHf_o',
-  );
+  myHeaders.append('Authorization', `Bearer ${token}`);
   myHeaders.append('Content-Type', 'application/json');
 
   var raw = JSON.stringify({
@@ -82,7 +86,10 @@ export const deleteQuestionId = async (id: number): Promise<boolean> => {
     body: raw,
   };
 
-  const data = await fetch('http://localhost:8080/Question', requestOptions)
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/Question`,
+    requestOptions,
+  )
     .then((response) => response.json())
     .then((result) => {
       return result;
@@ -96,12 +103,10 @@ export const deleteQuestionId = async (id: number): Promise<boolean> => {
 export const updateQuestion = async (
   id: number,
   dataPut: iCreateQuestion,
+  token: string,
 ): Promise<boolean> => {
   var myHeaders = new Headers();
-  myHeaders.append(
-    'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTg0MDQ5NiwiZXhwIjoxNjQxODU4NDk2fQ.Ta1rIdXBhTxohODtNHVu7tNxF-hyb48reFBYe1OHf_o',
-  );
+  myHeaders.append('Authorization', `Bearer ${token}`);
   myHeaders.append('Content-Type', 'application/json');
 
   var raw = JSON.stringify({
@@ -119,7 +124,10 @@ export const updateQuestion = async (
     body: raw,
   };
 
-  const data = await fetch('http://localhost:8080/question', requestOptions)
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/question`,
+    requestOptions,
+  )
     .then((response) => response.json())
     .then((result) => {
       return result;

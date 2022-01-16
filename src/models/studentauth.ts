@@ -7,6 +7,7 @@ type auth = {
   token?: string;
   username?: string;
   role?: string;
+  id?: number;
 };
 
 const StudentAuth = async (
@@ -20,14 +21,17 @@ const StudentAuth = async (
     username: username,
     password: password,
   });
+  console.log(raw);
 
   var requestOptions: requestInit = {
     method: 'POST',
     headers: myHeaders,
     body: raw,
   };
-
-  const data = await fetch('http://localhost:8080/loginStudent', requestOptions)
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/loginStudent`,
+    requestOptions,
+  )
     .then((response) => response.json())
     .then((result) => {
       return result;

@@ -5,12 +5,15 @@ import { Button, TextField, Typography } from '@mui/material';
 import AdminAuth from '../models/adminauth';
 import { saveToken } from '../sessions/session';
 import useStore from '../store/globalState';
+import { useHistory } from 'react-router-dom';
 
 interface login {
   username: string;
   password: string;
 }
 const AdminLogin = () => {
+  const history = useHistory();
+
   const [valueLogin, setValueLogin] = React.useState<login>({
     username: ' ',
     password: '        ',
@@ -23,13 +26,17 @@ const AdminLogin = () => {
   const setUsername = useStore((state) => state.setUsername);
   const setToken = useStore((state) => state.setToken);
   const setRole = useStore((state) => state.setRole);
+  const setId = useStore((state) => state.setId);
+
   const handleClick = async () => {
     const auth = await AdminAuth(valueLogin.username, valueLogin.password);
-    if (auth.token && auth.username) {
-      saveToken(auth.token, auth.username, 'admin');
+    if (auth.token && auth.username && auth.id) {
+      saveToken(auth.token, auth.username, 'admin', auth.id);
       setUsername(auth.username);
       setToken(auth.token);
       setRole('admin');
+      setId(auth.id);
+      history.push('/admins');
     }
   };
   return (
@@ -98,6 +105,17 @@ const AdminLogin = () => {
               </Button>
             </Grid>
           </Grid>
+          <Typography align='center' variant='subtitle2' sx={{ mt: 5, mb: 5 }}>
+            <Button
+              variant='outlined'
+              onClick={() => {
+                history.push('/loginSiswa');
+              }}
+            >
+              {' '}
+              Pergi ke halaman Siswa
+            </Button>
+          </Typography>
         </Box>
       </Grid>
     </Grid>

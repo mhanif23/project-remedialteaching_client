@@ -1,4 +1,4 @@
-export interface idiagnostik_question {
+export interface iExam_question {
   id: number;
   question: string;
   option1: string;
@@ -12,7 +12,7 @@ export interface idiagnostik_question {
   idSubject: number;
 }
 
-export interface iCreatediagnostik_question {
+export interface iCreateExam_question {
   question: string;
   option1: string;
   option2: string;
@@ -25,8 +25,8 @@ export interface iCreatediagnostik_question {
   idSubject: string;
 }
 
-export const createDiagnostikQuestion = async (
-  newData: iCreatediagnostik_question,
+export const createExamQuestion = async (
+  newData: iCreateExam_question,
   token: string,
 ): Promise<boolean> => {
   var myHeaders = new Headers();
@@ -52,7 +52,7 @@ export const createDiagnostikQuestion = async (
   };
 
   const data = fetch(
-    `${process.env.REACT_APP_BACKEND_URL}/questionDiagnostiks`,
+    `${process.env.REACT_APP_BACKEND_URL}/questionsExams`,
     requestOptions,
   )
     .then((response) => response.json())
@@ -69,7 +69,7 @@ export const createDiagnostikQuestion = async (
   }
 };
 
-export const getSoalDiagnopstik = async (): Promise<idiagnostik_question[]> => {
+export const getSoalExam = async (): Promise<iExam_question[]> => {
   var myHeaders = new Headers();
 
   var requestOptions = {
@@ -78,7 +78,7 @@ export const getSoalDiagnopstik = async (): Promise<idiagnostik_question[]> => {
   };
 
   const data = await fetch(
-    `${process.env.REACT_APP_BACKEND_URL}/questionDiagnostiks_active`,
+    `${process.env.REACT_APP_BACKEND_URL}/questionsExams_active`,
     requestOptions,
   )
     .then((response) => response.json())
@@ -91,9 +91,30 @@ export const getSoalDiagnopstik = async (): Promise<idiagnostik_question[]> => {
   return await data.result;
 };
 
-export const updateDiagnostikQuestion = async (
+export const getSoalExamStudent = async (
   id: number,
-  body: iCreatediagnostik_question,
+): Promise<iExam_question[]> => {
+  var requestOptions = {
+    method: 'GET',
+  };
+
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/findExam?id_student=${id}`,
+    requestOptions,
+  )
+    .then((response) => response.json())
+    .then((result) => {
+      return result;
+    })
+    .catch((error) => {
+      return error;
+    });
+  return await data;
+};
+
+export const updateExamQuestion = async (
+  id: number,
+  body: iCreateExam_question,
   token: string,
 ): Promise<boolean> => {
   var myHeaders = new Headers();
@@ -121,7 +142,7 @@ export const updateDiagnostikQuestion = async (
   };
 
   const data = await fetch(
-    `${process.env.REACT_APP_BACKEND_URL}/questionDiagnostiks`,
+    `${process.env.REACT_APP_BACKEND_URL}/questionsExams`,
     requestOptions,
   )
     .then((response) => response.json())
@@ -135,7 +156,7 @@ export const updateDiagnostikQuestion = async (
   return data;
 };
 
-export const deleteDiagnostikQuestion = async (
+export const deleteExamQuestion = async (
   id: number,
   token: string,
 ): Promise<boolean> => {
@@ -154,7 +175,7 @@ export const deleteDiagnostikQuestion = async (
   };
 
   const data = await fetch(
-    `${process.env.REACT_APP_BACKEND_URL}/questionDiagnostiks`,
+    `${process.env.REACT_APP_BACKEND_URL}/questionsExams`,
     requestOptions,
   )
     .then((response) => response.json())

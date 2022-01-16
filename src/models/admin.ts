@@ -3,12 +3,12 @@ export interface iCreateAdmin {
   password: string;
   fullname: string;
 }
-export const createAdmin = async (newData: iCreateAdmin): Promise<boolean> => {
+export const createAdmin = async (
+  newData: iCreateAdmin,
+  token: string,
+): Promise<boolean> => {
   var myHeaders = new Headers();
-  myHeaders.append(
-    'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTg0MDQ5NiwiZXhwIjoxNjQxODU4NDk2fQ.Ta1rIdXBhTxohODtNHVu7tNxF-hyb48reFBYe1OHf_o',
-  );
+  myHeaders.append('Authorization', `Bearer ${token}`);
   myHeaders.append('Content-Type', 'application/json');
 
   var raw = JSON.stringify({
@@ -23,7 +23,10 @@ export const createAdmin = async (newData: iCreateAdmin): Promise<boolean> => {
     body: raw,
   };
 
-  const data = fetch('http://localhost:8080/registerAdmin', requestOptions)
+  const data = fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/registerAdmin`,
+    requestOptions,
+  )
     .then((response) => response.text())
     .then((result) => {
       return result;
@@ -43,19 +46,19 @@ export interface admins {
   admin_name: string;
   username: string;
 }
-export const getAdmins = async (): Promise<admins[]> => {
+export const getAdmins = async (token: string): Promise<admins[]> => {
   var myHeaders = new Headers();
-  myHeaders.append(
-    'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTg0MDQ5NiwiZXhwIjoxNjQxODU4NDk2fQ.Ta1rIdXBhTxohODtNHVu7tNxF-hyb48reFBYe1OHf_o',
-  );
+  myHeaders.append('Authorization', `Bearer ${token}`);
 
   var requestOptions = {
     method: 'GET',
     headers: myHeaders,
   };
 
-  const data = await fetch('http://localhost:8080/admins', requestOptions)
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/admins`,
+    requestOptions,
+  )
     .then((response) => response.json())
     .then((result) => {
       return result;

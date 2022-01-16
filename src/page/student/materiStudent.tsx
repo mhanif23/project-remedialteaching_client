@@ -22,6 +22,7 @@ import {
   IndicatorsData,
 } from '../../models/indicator';
 import { updateStatus } from '../../models/detail_contract';
+import useStore from '../../store/globalState';
 
 const MateriStudentPage = () => {
   const [expanded, setExpanded] = React.useState<string | false>(false);
@@ -41,17 +42,22 @@ const MateriStudentPage = () => {
   const [matter, setMatter] = React.useState<
     (IndicatorsData & { isDone: number; idDetail: number })[] | null
   >(null);
+  const token = useStore((state) => state.token);
+  const idStudent = useStore((state) => state.id);
 
   const GetDataMatter = async (id_student: number) => {
     const data = await getIndicatorStudentForMatter(id_student);
-    setMatter(data);
+    if (data) {
+      setMatter(data);
+    }
   };
 
   useEffect(() => {
-    GetDataMatter(14);
-  }, []);
+    GetDataMatter(idStudent);
+  }, [openConfirmation, isReadyToTryOut, idStudent]);
 
   useEffect(() => {
+    console.log(matter);
     if (matter && matter.length !== 0) {
       let isReady = true;
       matter.forEach((e) => {
@@ -59,14 +65,18 @@ const MateriStudentPage = () => {
           isReady = false;
         }
       });
+      if (matter.length === 0) {
+        isReady = false;
+      }
       setisReadyToTryOut(isReady);
     }
-  }, [matter]);
+  }, [matter, openConfirmation]);
   return (
     <>
       <Box>
         <ButtonAppBarStudent />
-        {matter && matter[0].isDone === 2 ? (
+
+        {matter && matter?.length !== 0 && matter[0].isDone === 2 ? (
           <>
             <Typography align='center' variant='h4' sx={{ mt: 5, mb: 5 }}>
               Anda sudah bersedia untuk mengikuti latihan!
@@ -134,8 +144,8 @@ const MateriStudentPage = () => {
                           }}
                           disabled={e.isDone === 0 ? false : true}
                           onClick={async () => {
-                            await updateStatus(e.idDetail, 1);
-                            GetDataMatter(14);
+                            await updateStatus(e.idDetail, 1, token);
+                            GetDataMatter(idStudent);
                           }}
                         >
                           Mark Done
@@ -175,12 +185,15 @@ const MateriStudentPage = () => {
                 <Button onClick={handlecloseConfirmation}>Cancel</Button>
                 <Button
                   onClick={async () => {
+                    setisReadyToTryOut(false);
+                    handlecloseConfirmation();
+
                     if (matter) {
                       matter.map(async (e) => {
-                        await updateStatus(e.idDetail, 2);
+                        await updateStatus(e.idDetail, 2, token);
                       });
                     }
-                    GetDataMatter(14);
+                    setisReadyToTryOut(false);
                   }}
                   autoFocus
                 >

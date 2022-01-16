@@ -6,6 +6,7 @@ interface requestInit {
 type auth = {
   token?: string;
   username?: string;
+  id?: number;
 };
 
 const AdminAuth = async (username: string, password: string): Promise<auth> => {
@@ -23,7 +24,10 @@ const AdminAuth = async (username: string, password: string): Promise<auth> => {
     body: raw,
   };
 
-  const data = await fetch('http://localhost:8080/loginAdmin', requestOptions)
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/loginAdmin`,
+    requestOptions,
+  )
     .then((response) => response.json())
     .then((result) => {
       return result;

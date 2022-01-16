@@ -1,20 +1,19 @@
-export interface iCreate_diagnostik_student_answer {
-  id_question_diagnostik: number;
-  id_student: number;
+export interface iCreate_TryOut_student_answer {
+  id_TryOut_Question: number;
+  studentId: number;
   answer: string;
-  alasan: number;
 }
 
-export interface iStudentAnswerDiagnostik {
+export interface iStudentAnswerTryOut {
   id: number;
   id_student: number;
-  id_question_diagnostik: number;
+  id_question_TryOut: number;
   status: string;
   answer: string;
 }
 
-export const createDiagnostikStudentAnswer = async (
-  newData: iCreate_diagnostik_student_answer[],
+export const createTryOutStudentAnswer = async (
+  newData: iCreate_TryOut_student_answer[],
   token: string,
 ): Promise<boolean> => {
   var myHeaders = new Headers();
@@ -32,7 +31,7 @@ export const createDiagnostikStudentAnswer = async (
   };
 
   const data = await fetch(
-    `${process.env.REACT_APP_BACKEND_URL}/diagnostikAnswersStudent`,
+    `${process.env.REACT_APP_BACKEND_URL}/TryOutAnswersStudent`,
     requestOptions,
   )
     .then((response) => response.json())

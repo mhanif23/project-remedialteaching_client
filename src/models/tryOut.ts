@@ -1,4 +1,4 @@
-export interface idiagnostik_question {
+export interface itryOut_question {
   id: number;
   question: string;
   option1: string;
@@ -10,9 +10,11 @@ export interface idiagnostik_question {
   media?: string;
   idIndicator: number;
   idSubject: number;
+  id_Indicator?: string;
+  noTopic: string;
 }
 
-export interface iCreatediagnostik_question {
+export interface iCreatetryOut_question {
   question: string;
   option1: string;
   option2: string;
@@ -23,10 +25,11 @@ export interface iCreatediagnostik_question {
   media?: string;
   idIndicator: string;
   idSubject: string;
+  noTopic: string;
 }
 
-export const createDiagnostikQuestion = async (
-  newData: iCreatediagnostik_question,
+export const createTryoutQuestion = async (
+  newData: iCreatetryOut_question,
   token: string,
 ): Promise<boolean> => {
   var myHeaders = new Headers();
@@ -43,6 +46,7 @@ export const createDiagnostikQuestion = async (
     media: newData.media,
     idIndicator: Number(newData.idIndicator),
     idSubject: Number(newData.idSubject),
+    noTopic: Number(newData.noTopic),
   });
 
   var requestOptions = {
@@ -52,7 +56,7 @@ export const createDiagnostikQuestion = async (
   };
 
   const data = fetch(
-    `${process.env.REACT_APP_BACKEND_URL}/questionDiagnostiks`,
+    `${process.env.REACT_APP_BACKEND_URL}/questionTryOuts`,
     requestOptions,
   )
     .then((response) => response.json())
@@ -69,7 +73,7 @@ export const createDiagnostikQuestion = async (
   }
 };
 
-export const getSoalDiagnopstik = async (): Promise<idiagnostik_question[]> => {
+export const getSoalTryOut = async (): Promise<itryOut_question[]> => {
   var myHeaders = new Headers();
 
   var requestOptions = {
@@ -78,7 +82,7 @@ export const getSoalDiagnopstik = async (): Promise<idiagnostik_question[]> => {
   };
 
   const data = await fetch(
-    `${process.env.REACT_APP_BACKEND_URL}/questionDiagnostiks_active`,
+    `${process.env.REACT_APP_BACKEND_URL}/questionTryOuts_active`,
     requestOptions,
   )
     .then((response) => response.json())
@@ -91,9 +95,30 @@ export const getSoalDiagnopstik = async (): Promise<idiagnostik_question[]> => {
   return await data.result;
 };
 
-export const updateDiagnostikQuestion = async (
+export const getSoalTryOutStudent = async (
   id: number,
-  body: iCreatediagnostik_question,
+): Promise<itryOut_question[]> => {
+  var requestOptions = {
+    method: 'GET',
+  };
+
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/findTryOut?id_student=${id}`,
+    requestOptions,
+  )
+    .then((response) => response.json())
+    .then((result) => {
+      return result;
+    })
+    .catch((error) => {
+      return error;
+    });
+  return await data;
+};
+
+export const updateTryoutQuestion = async (
+  id: number,
+  body: iCreatetryOut_question,
   token: string,
 ): Promise<boolean> => {
   var myHeaders = new Headers();
@@ -112,6 +137,7 @@ export const updateDiagnostikQuestion = async (
     media: body.media,
     idIndicator: Number(body.idIndicator),
     idSubject: Number(body.idSubject),
+    noTopic: Number(body.noTopic),
   });
 
   var requestOptions = {
@@ -121,7 +147,7 @@ export const updateDiagnostikQuestion = async (
   };
 
   const data = await fetch(
-    `${process.env.REACT_APP_BACKEND_URL}/questionDiagnostiks`,
+    `${process.env.REACT_APP_BACKEND_URL}/questionTryOuts`,
     requestOptions,
   )
     .then((response) => response.json())
@@ -135,7 +161,7 @@ export const updateDiagnostikQuestion = async (
   return data;
 };
 
-export const deleteDiagnostikQuestion = async (
+export const deleteTryoutQuestion = async (
   id: number,
   token: string,
 ): Promise<boolean> => {
@@ -154,7 +180,7 @@ export const deleteDiagnostikQuestion = async (
   };
 
   const data = await fetch(
-    `${process.env.REACT_APP_BACKEND_URL}/questionDiagnostiks`,
+    `${process.env.REACT_APP_BACKEND_URL}/questionTryOuts`,
     requestOptions,
   )
     .then((response) => response.json())

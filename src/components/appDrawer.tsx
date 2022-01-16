@@ -48,12 +48,11 @@ export default function SwipeableTemporaryDrawer() {
             button
             key={text}
             onClick={() => {
-              console.log(text);
               const path =
                 text === 'Admins'
                   ? '/admins'
                   : text === 'Students'
-                  ? '/studentss'
+                  ? '/students'
                   : text === 'Subject'
                   ? '/subjects'
                   : '/indicators';
@@ -74,13 +73,12 @@ export default function SwipeableTemporaryDrawer() {
             button
             key={text}
             onClick={() => {
-              console.log(text);
               const path =
                 text === 'Diagnostik'
                   ? '/diagnostik'
                   : text === 'Latihan'
-                  ? '/studentss'
-                  : '/questions';
+                  ? '/latihanStudentPage'
+                  : '/exam';
               history.push(path);
             }}
           >

@@ -5,44 +5,20 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-const AnswerChoice = ({
+const AnswerChoiceall = ({
   question,
   addNewStudentAnswer,
   index,
 }: {
   question: idiagnostik_question;
-  addNewStudentAnswer: (
-    id_diagnostik: number,
-    answer: string,
-    alasan: number,
-  ) => void;
+  addNewStudentAnswer: (id_diagnostik: number, answer: string) => void;
   index: number;
 }) => {
   const [active, setactive] = React.useState('');
-  const [Alasanactive, setAlasanactive] = React.useState('');
-  const studentAnswer = React.useRef({
-    answer: '',
-    alasan: -1,
-  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, no: number) => {
-    if (no === 0) {
-      studentAnswer.current.answer = e.target.value;
-      setactive(e.target.value);
-      addNewStudentAnswer(
-        question.id,
-        studentAnswer.current.answer,
-        studentAnswer.current.alasan,
-      );
-    } else {
-      setAlasanactive(e.target.value);
-      studentAnswer.current.alasan = Number(e.target.value);
-      addNewStudentAnswer(
-        question.id,
-        studentAnswer.current.answer,
-        studentAnswer.current.alasan,
-      );
-    }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setactive(e.target.value);
+    addNewStudentAnswer(question.id, e.target.value);
   };
 
   return (
@@ -89,7 +65,7 @@ const AnswerChoice = ({
                 aria-label='gender'
                 defaultValue={active}
                 name='radio-buttons-group'
-                onChange={(e) => handleChange(e, 0)}
+                onChange={handleChange}
               >
                 <FormControlLabel
                   value={question.option1}
@@ -168,63 +144,10 @@ const AnswerChoice = ({
                 />
               </RadioGroup>
             </Grid>
-            <Grid
-              item
-              xs={11}
-              sx={{
-                mt: 1,
-                mb: 1,
-                ml: 3,
-              }}
-            >
-              <Typography variant='subtitle1'>
-                Tingkat keyakinan saya terhadap jawaban dan alasan saya…
-              </Typography>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              sx={{
-                ml: 4,
-              }}
-            >
-              <RadioGroup
-                aria-label='alasan'
-                defaultValue={Alasanactive}
-                name='alasan'
-                onChange={(e) => handleChange(e, 1)}
-              >
-                <FormControlLabel
-                  value={1}
-                  control={<Radio required={true} />}
-                  label='Menebak'
-                />
-                <FormControlLabel
-                  value={2}
-                  control={<Radio required={true} />}
-                  label='Sangat tidak yakin'
-                />
-                <FormControlLabel
-                  value={3}
-                  control={<Radio required={true} />}
-                  label='Tidak yakin'
-                />
-                <FormControlLabel
-                  value={4}
-                  control={<Radio required={true} />}
-                  label='Yakin'
-                />
-                <FormControlLabel
-                  value={5}
-                  control={<Radio required={true} />}
-                  label='Sangat yakin'
-                />
-              </RadioGroup>
-            </Grid>
           </Grid>
         </Box>
       </Box>
     </>
   );
 };
-export default AnswerChoice;
+export default AnswerChoiceall;

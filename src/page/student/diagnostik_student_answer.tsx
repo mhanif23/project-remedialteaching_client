@@ -1,24 +1,28 @@
 import { Container, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
-import { getAnswerDiagnostikStudent } from '../../models/student';
+import {
+  checkstudentDiagnostikAnswer,
+  iDiagnostikAnswer,
+} from '../../models/indicator';
 import ButtonAppBarStudent from './component/appBarStudent';
 import DiagnostikPageAnswer from './diagnostikPageAnswer';
+import useStore from '../../store/globalState';
 
 const DiagnostikStudentPage = () => {
-  const [studentStatus, setstudentStatus] = React.useState('new');
+  const [studentStatus, setstudentStatus] =
+    React.useState<iDiagnostikAnswer[]>();
 
-  async function getStudentInfo() {
-    const data = await getAnswerDiagnostikStudent(14);
-    if (data === 0) {
-      setstudentStatus('new');
-    } else {
-      setstudentStatus('old');
-    }
-  }
+  const GetDataMatter = async (id_student: number) => {
+    const data = await checkstudentDiagnostikAnswer(id_student);
+    setstudentStatus(data);
+  };
+  const idStudent = useStore((state) => state.id);
+
   useEffect(() => {
-    getStudentInfo();
-  }, [studentStatus]);
-  if (studentStatus === 'new') {
+    GetDataMatter(idStudent);
+  }, [idStudent]);
+
+  if (studentStatus && studentStatus.length === 0) {
     return <DiagnostikPageAnswer />;
   } else {
     return (

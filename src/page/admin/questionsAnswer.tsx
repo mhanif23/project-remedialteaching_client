@@ -20,6 +20,7 @@ import {
   QuestionsAnswerData,
   updateQuestionAnswer,
 } from '../../models/questAnswer';
+import useStore from '../../store/globalState';
 
 const QuestionsAnswer = () => {
   const [open, setOpen] = React.useState(false);
@@ -33,6 +34,7 @@ const QuestionsAnswer = () => {
     answer: '',
     status: false,
   });
+  const token = useStore((state) => state.token);
 
   const [questionAnswerall, setquestionAnswerAll] = React.useState<
     QuestionsAnswerData[] | undefined
@@ -104,7 +106,7 @@ const QuestionsAnswer = () => {
     name: string;
   }[] = [];
   async function questionAnswerList() {
-    const data = await getQuestionAnswer(idQuestion);
+    const data = await getQuestionAnswer(idQuestion, token);
     setquestionAnswerAll(data);
   }
   useEffect(() => {
@@ -131,7 +133,7 @@ const QuestionsAnswer = () => {
     );
   });
   const create = async () => {
-    const data = createQuestionAnswer(questionAnswer);
+    const data = createQuestionAnswer(questionAnswer, token);
     if ((await data) === true) {
       setquestionAnswer({
         id_question: -1,
@@ -145,7 +147,7 @@ const QuestionsAnswer = () => {
   };
 
   const deleteDiagnostik = async () => {
-    const data = deleteQuestionAnswerId(idDelete);
+    const data = deleteQuestionAnswerId(idDelete, token);
     if ((await data) === true) {
       handleCloseOpenDelete();
       questionAnswerList();
@@ -166,6 +168,7 @@ const QuestionsAnswer = () => {
       questionAnswer.id_question,
       questionAnswer.answer,
       questionAnswer.status,
+      token,
     );
     if ((await data) === true) {
       handleCloseEditDialog();

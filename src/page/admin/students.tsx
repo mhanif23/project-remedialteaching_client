@@ -19,6 +19,7 @@ import {
   getStudents,
   students,
 } from '../../models/student';
+import useStore from '../../store/globalState';
 
 const Students = () => {
   const [open, setOpen] = React.useState(false);
@@ -35,9 +36,10 @@ const Students = () => {
     student_name: '',
     class: '',
   });
+  const token = useStore((state) => state.token);
 
   const deleteStudentQuestion = async () => {
-    const data = deleteStudent(idDelete);
+    const data = deleteStudent(idDelete, token);
     if ((await data) === true) {
       setIdDelete(-1);
       handleCloseOpenDelete();
@@ -91,10 +93,9 @@ const Students = () => {
     data1: string,
     data2: string,
     data3: string,
-    data4: string,
     name: string,
   ) {
-    return { id, data1, data2, data3, data4, name };
+    return { id, data1, data2, data3, name };
   }
 
   function createName(
@@ -102,40 +103,31 @@ const Students = () => {
     name2: string,
     name3: string,
     name4: string,
-    name5: string,
   ) {
-    return { name1, name2, name3, name4, name5 };
+    return { name1, name2, name3, name4 };
   }
 
-  const tableName = [
-    createName('No', 'username', 'student_name', 'class', 'status'),
-  ];
+  const tableName = [createName('No', 'username', 'student_name', 'class')];
 
   const rows: { id: number; data1: string; data2: string }[] = [];
   async function admin() {
-    const data = await getStudents();
+    const data = await getStudents(token);
     setdataStudent(data);
   }
   useEffect(() => {
     admin();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, openEdit, openDelete]);
 
   // eslint-disable-next-line array-callback-return
   dataStudent?.map((e, index) => {
     rows.push(
-      createData(
-        e.id,
-        e.username,
-        e.student_name,
-        e.class,
-        e.status,
-        String(index + 1),
-      ),
+      createData(e.id, e.username, e.student_name, e.class, String(index + 1)),
     );
   });
 
   const create = async () => {
-    const data = createStudent(dataNewStudent);
+    const data = createStudent(dataNewStudent, token);
     if ((await data) === false) {
     } else {
       setNewStudent({

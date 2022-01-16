@@ -24,6 +24,7 @@ import {
   createIndicator,
 } from '../../models/indicator';
 import { getSubject, SubjectsData } from '../../models/subjects';
+import useStore from '../../store/globalState';
 
 const Indicators = () => {
   const [open, setOpen] = React.useState(false);
@@ -33,16 +34,18 @@ const Indicators = () => {
   const [idDelete, setIdDelete] = React.useState(-1);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openDelete, setOpenDelete] = React.useState(false);
+  const token = useStore((state) => state.token);
 
   const [dataSubject, setdataSubject] = React.useState<
     SubjectsData[] | undefined
   >(undefined);
   async function subject() {
-    const data = await getSubject();
+    const data = await getSubject(token);
     setdataSubject(data);
   }
   useEffect(() => {
     subject();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, openEdit]);
 
   const [dataNewIndicator, setNewIndicator] = React.useState({
@@ -54,7 +57,7 @@ const Indicators = () => {
   });
 
   const deleteIndicator = async () => {
-    const data = deleteIndicatorId(idDelete);
+    const data = deleteIndicatorId(idDelete, token);
     if ((await data) === true) {
       setIdDelete(-1);
       handleCloseOpenDelete();
@@ -72,7 +75,7 @@ const Indicators = () => {
   };
 
   const update = async () => {
-    const data = updateIndicator(idEdit, dataNewIndicator);
+    const data = updateIndicator(idEdit, dataNewIndicator, token);
     if ((await data) === true) {
       handleCloseEditDialog();
       Indicator();
@@ -194,7 +197,7 @@ const Indicators = () => {
   });
 
   const create = async () => {
-    const data = createIndicator(dataNewIndicator);
+    const data = createIndicator(dataNewIndicator, token);
     if ((await data) === false) {
     } else {
       setNewIndicator({

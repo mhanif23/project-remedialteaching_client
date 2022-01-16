@@ -1,9 +1,6 @@
-export const updateStatus = (id: number, status: number) => {
+export const updateStatus = (id: number, status: number, token: string) => {
   var myHeaders = new Headers();
-  myHeaders.append(
-    'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN0dWRlbnQiLCJyb2xlIjoic3R1ZGVudCIsImlhdCI6MTY0MTg0MDQ2NiwiZXhwIjoxNjQxODU4NDY2fQ.-0PQX4n7Bv4mpydhh8Tf3IgkNlD0WU8GmcYtyEhRi70',
-  );
+  myHeaders.append('Authorization', `Bearer ${token}`);
   myHeaders.append('Content-Type', 'application/json');
 
   var raw = JSON.stringify({
@@ -17,7 +14,10 @@ export const updateStatus = (id: number, status: number) => {
     body: raw,
   };
 
-  const data = fetch('http://localhost:8080/updateStatus', requestOptions)
+  const data = fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/updateStatus`,
+    requestOptions,
+  )
     .then((response) => response.json())
     .then((result) => {
       return result;

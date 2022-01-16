@@ -7,12 +7,10 @@ export interface iCreateIndicator {
 }
 export const createIndicator = async (
   newData: iCreateIndicator,
+  token: string,
 ): Promise<boolean> => {
   var myHeaders = new Headers();
-  myHeaders.append(
-    'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTg0MDQ5NiwiZXhwIjoxNjQxODU4NDk2fQ.Ta1rIdXBhTxohODtNHVu7tNxF-hyb48reFBYe1OHf_o',
-  );
+  myHeaders.append('Authorization', `Bearer ${token}`);
   myHeaders.append('Content-Type', 'application/json');
 
   var raw = JSON.stringify({
@@ -28,7 +26,10 @@ export const createIndicator = async (
     body: raw,
   };
 
-  const data = await fetch('http://localhost:8080/Indicators', requestOptions)
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/Indicators`,
+    requestOptions,
+  )
     .then((response) => response.json())
     .then((result) => {
       return result;
@@ -61,7 +62,7 @@ export const getIndicatorBySubject = async (
   };
 
   const data = await fetch(
-    `http://localhost:8080/IndicatorsBySubject?idSubject=${id}`,
+    `${process.env.REACT_APP_BACKEND_URL}/IndicatorsBySubject?idSubject=${id}`,
     requestOptions,
   )
     .then((response) => response.json())
@@ -79,7 +80,10 @@ export const getIndicator = async (): Promise<IndicatorsData[]> => {
     method: 'GET',
   };
 
-  const data = await fetch('http://localhost:8080/Indicators', requestOptions)
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/Indicators`,
+    requestOptions,
+  )
     .then((response) => response.json())
     .then((result) => {
       return result;
@@ -90,12 +94,12 @@ export const getIndicator = async (): Promise<IndicatorsData[]> => {
   return await data.result;
 };
 
-export const deleteIndicatorId = async (id: number): Promise<boolean> => {
+export const deleteIndicatorId = async (
+  id: number,
+  token: string,
+): Promise<boolean> => {
   var myHeaders = new Headers();
-  myHeaders.append(
-    'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTg0MDQ5NiwiZXhwIjoxNjQxODU4NDk2fQ.Ta1rIdXBhTxohODtNHVu7tNxF-hyb48reFBYe1OHf_o',
-  );
+  myHeaders.append('Authorization', `Bearer ${token}`);
   myHeaders.append('Content-Type', 'application/json');
 
   var raw = JSON.stringify({
@@ -108,7 +112,10 @@ export const deleteIndicatorId = async (id: number): Promise<boolean> => {
     body: raw,
   };
 
-  const data = await fetch('http://localhost:8080/Indicators', requestOptions)
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/Indicators`,
+    requestOptions,
+  )
     .then((response) => response.json())
     .then((result) => {
       return result;
@@ -122,17 +129,16 @@ export const deleteIndicatorId = async (id: number): Promise<boolean> => {
 export const updateIndicator = async (
   id: number,
   newData: iCreateIndicator,
+  token: string,
 ): Promise<boolean> => {
+  console.log(newData);
   var myHeaders = new Headers();
-  myHeaders.append(
-    'Authorization',
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJpemFsYWRtaW5yZW1lZGlhbCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY0MTg0MDQ5NiwiZXhwIjoxNjQxODU4NDk2fQ.Ta1rIdXBhTxohODtNHVu7tNxF-hyb48reFBYe1OHf_o',
-  );
+  myHeaders.append('Authorization', `Bearer ${token}`);
   myHeaders.append('Content-Type', 'application/json');
 
   var raw = JSON.stringify({
     id: id,
-    id_Indicator: newData.id_subject,
+    id_subject: Number(newData.id_subject),
     topic: newData.topic,
     description: newData.description,
     code_number: newData.code_number,
@@ -145,7 +151,10 @@ export const updateIndicator = async (
     body: raw,
   };
 
-  const data = await fetch('http://localhost:8080/Indicators', requestOptions)
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/Indicators`,
+    requestOptions,
+  )
     .then((response) => response.json())
     .then((result) => {
       return result;
@@ -165,7 +174,85 @@ export const getIndicatorStudentForMatter = async (
   };
 
   const data = await fetch(
-    `http://localhost:8080/find_indicator_remedial?id_student=${id}`,
+    `${process.env.REACT_APP_BACKEND_URL}/findMatter?id_student=${id}`,
+    requestOptions,
+  )
+    .then((response) => response.json())
+    .then((result) => {
+      return result;
+    })
+    .catch((error) => {
+      return error;
+    });
+  return await data;
+};
+
+export type iDiagnostikAnswer = {
+  id: number;
+  id_student: number;
+  status: false;
+  created_At: Date;
+  id_question_diagnostik: number;
+  answer: string;
+  alasanAnswer: number;
+};
+
+export type resultDA = {
+  result: [iDiagnostikAnswer[]];
+};
+
+export const checkstudentDiagnostikAnswer = async (
+  id: number,
+): Promise<iDiagnostikAnswer[]> => {
+  var requestOptions = {
+    method: 'GET',
+  };
+
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/diagnostikAnswers_by_istudent?id_student=${id}`,
+    requestOptions,
+  )
+    .then((response) => response.json())
+    .then((result) => {
+      return result;
+    })
+    .catch((error) => {
+      return error;
+    });
+  return await data.result;
+};
+
+export const getIndicatorStudentForTryOut = async (
+  id: number,
+): Promise<(IndicatorsData & { isDone: number; idDetail: number })[]> => {
+  var requestOptions = {
+    method: 'GET',
+  };
+
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/findTryOut?id_student=${id}`,
+    requestOptions,
+  )
+    .then((response) => response.json())
+    .then((result) => {
+      return result;
+    })
+    .catch((error) => {
+      return error;
+    });
+
+  return await data;
+};
+
+export const getIndicatorStudentForExam = async (
+  id: number,
+): Promise<(IndicatorsData & { isDone: number; idDetail: number })[]> => {
+  var requestOptions = {
+    method: 'GET',
+  };
+
+  const data = await fetch(
+    `${process.env.REACT_APP_BACKEND_URL}/findExam?id_student=${id}`,
     requestOptions,
   )
     .then((response) => response.json())

@@ -13,6 +13,7 @@ import React, { useEffect } from 'react';
 import ButtonAppBar from '../../components/appBar';
 import DenseTable from '../../components/tables';
 import { admins, createAdmin, getAdmins } from '../../models/admin';
+import useStore from '../../store/globalState';
 
 const Admins = () => {
   const [open, setOpen] = React.useState(false);
@@ -28,6 +29,7 @@ const Admins = () => {
     password: '',
     fullname: '',
   });
+  const token = useStore((state) => state.token);
 
   const handleClickOpenDelete = () => {
     setOpenDelete(true);
@@ -75,11 +77,12 @@ const Admins = () => {
 
   const rows: { id: number; data1: string; data2: string }[] = [];
   async function admin() {
-    const data = await getAdmins();
+    const data = await getAdmins(token);
     setDataAdmin(data);
   }
   useEffect(() => {
     admin();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, openEdit, openDelete]);
 
   // eslint-disable-next-line array-callback-return
@@ -88,7 +91,7 @@ const Admins = () => {
   });
 
   const create = async () => {
-    const data = createAdmin(dataNewAdmin);
+    const data = createAdmin(dataNewAdmin, token);
     if ((await data) === true) {
       handleClose();
     } else {

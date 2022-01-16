@@ -20,6 +20,7 @@ import {
   QuestionsData,
   updateQuestion,
 } from '../../models/question';
+import useStore from '../../store/globalState';
 
 const Questions = () => {
   const [open, setOpen] = React.useState(false);
@@ -35,9 +36,10 @@ const Questions = () => {
     question: '',
     media: '',
   });
+  const token = useStore((state) => state.token);
 
   const deletequestion = async () => {
-    const data = deleteQuestionId(idDelete);
+    const data = deleteQuestionId(idDelete, token);
     if ((await data) === true) {
       setIdDelete(-1);
       handleCloseOpenDelete();
@@ -53,7 +55,7 @@ const Questions = () => {
   };
 
   const update = async () => {
-    const data = updateQuestion(idEdit, dataNewQuestion);
+    const data = updateQuestion(idEdit, dataNewQuestion, token);
     if ((await data) === true) {
       handleCloseEditDialog();
       question();
@@ -161,7 +163,7 @@ const Questions = () => {
   });
 
   const create = async () => {
-    const data = await createQuestion(dataNewQuestion);
+    const data = await createQuestion(dataNewQuestion, token);
     if (data === true) {
       setNewQuestion({
         id_indicator: -1,
