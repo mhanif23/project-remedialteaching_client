@@ -131,7 +131,6 @@ export const updateIndicator = async (
   newData: iCreateIndicator,
   token: string,
 ): Promise<boolean> => {
-  console.log(newData);
   var myHeaders = new Headers();
   myHeaders.append('Authorization', `Bearer ${token}`);
   myHeaders.append('Content-Type', 'application/json');

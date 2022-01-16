@@ -57,7 +57,6 @@ const MateriStudentPage = () => {
   }, [openConfirmation, isReadyToTryOut, idStudent]);
 
   useEffect(() => {
-    console.log(matter);
     if (matter && matter.length !== 0) {
       let isReady = true;
       matter.forEach((e) => {

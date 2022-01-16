@@ -69,7 +69,6 @@ export const getQuestionAnswer = async (
     .catch((error) => {
       return error;
     });
-  console.log(data);
   return await data.result;
 };
 

@@ -21,7 +21,6 @@ const StudentAuth = async (
     username: username,
     password: password,
   });
-  console.log(raw);
 
   var requestOptions: requestInit = {
     method: 'POST',

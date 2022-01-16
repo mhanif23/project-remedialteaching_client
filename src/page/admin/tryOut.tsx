@@ -270,7 +270,6 @@ const TryOut = () => {
   });
   const create = async () => {
     const data = await createTryoutQuestion(soalTryOut, token);
-    console.log(data);
     if ((await data) === true) {
       handleClose();
       soalDiangostik();
